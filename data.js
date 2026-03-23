@@ -1,0 +1,598 @@
+/*
+  data.js — Datos del Termómetro del Barrio
+  ==========================================
+  Este archivo es generado automáticamente por pipeline.py con datos reales del SUACI.
+  Si lo ves con datos de ejemplo (mock: true), significa que el pipeline aún no corrió.
+
+  Para reemplazarlo con datos reales:
+    1. pip install pandas requests duckdb tqdm anthropic
+    2. python pipeline.py --export
+    3. Copiar el data.js generado aquí y hacer commit
+*/
+
+const DATOS_MOCK = true; // cambia a false cuando el pipeline genere datos reales
+
+const BARRIOS_DATA = {
+  "agronomia": {
+    nombre: "Agronomía", comuna: 15, temperatura: 44.2,
+    totalReclamos: 1820, tendenciaPct: 2,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 620, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 490, pct: 79, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 380, pct: 61, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 290, pct: 47, tendencia: "▼" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 180, pct: 29, tendencia: "→" },
+    ],
+    historico: [1520, 1680, 1200, 1440, 1700, 1780, 1820],
+  },
+  "almagro": {
+    nombre: "Almagro", comuna: 5, temperatura: 58.1,
+    totalReclamos: 5640, tendenciaPct: 7,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1680, pct: 100, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1240, pct: 74, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 920, pct: 55, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 680, pct: 40, tendencia: "▼" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 420, pct: 25, tendencia: "▲" },
+    ],
+    historico: [4200, 4800, 3400, 4100, 5100, 5270, 5640],
+  },
+  "balvanera": {
+    nombre: "Balvanera", comuna: 3, temperatura: 72.4,
+    totalReclamos: 7120, tendenciaPct: 14,
+    problemas: [
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 2240, pct: 100, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1680, pct: 75, tendencia: "▲" },
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 1180, pct: 53, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 880, pct: 39, tendencia: "→" },
+      { nombre: "Ruidos molestos nocturnos", categoria: "Convivencia", total: 720, pct: 32, tendencia: "▲" },
+    ],
+    historico: [5100, 5800, 4200, 5200, 6100, 6240, 7120],
+  },
+  "barracas": {
+    nombre: "Barracas", comuna: 4, temperatura: 80.6,
+    totalReclamos: 5840, tendenciaPct: 16,
+    problemas: [
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1920, pct: 100, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1480, pct: 77, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1020, pct: 53, tendencia: "→" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 780, pct: 41, tendencia: "▼" },
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 640, pct: 33, tendencia: "▲" },
+    ],
+    historico: [4200, 4600, 3400, 4400, 4900, 5030, 5840],
+  },
+  "belgrano": {
+    nombre: "Belgrano", comuna: 13, temperatura: 44.1,
+    totalReclamos: 5810, tendenciaPct: -5,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1640, pct: 100, tendencia: "▼" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 1100, pct: 67, tendencia: "▼" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 820, pct: 50, tendencia: "▼" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 620, pct: 38, tendencia: "→" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 480, pct: 29, tendencia: "→" },
+    ],
+    historico: [5200, 6100, 4000, 4800, 5900, 6120, 5810],
+  },
+  "la_boca": {
+    nombre: "La Boca", comuna: 4, temperatura: 78.6,
+    totalReclamos: 4280, tendenciaPct: 15,
+    problemas: [
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1380, pct: 100, tendencia: "▲" },
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 920, pct: 67, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 780, pct: 57, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 640, pct: 46, tendencia: "→" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 560, pct: 41, tendencia: "→" },
+    ],
+    historico: [2900, 3200, 2100, 2800, 3400, 3720, 4280],
+  },
+  "boedo": {
+    nombre: "Boedo", comuna: 5, temperatura: 55.3,
+    totalReclamos: 4140, tendenciaPct: 4,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1240, pct: 100, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 980, pct: 79, tendencia: "→" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 720, pct: 58, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 640, pct: 52, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Higiene urbana", total: 560, pct: 45, tendencia: "▼" },
+    ],
+    historico: [3200, 3700, 2600, 3100, 3800, 3980, 4140],
+  },
+  "caballito": {
+    nombre: "Caballito", comuna: 6, temperatura: 71.8,
+    totalReclamos: 9102, tendenciaPct: 18,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 2840, pct: 100, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1980, pct: 70, tendencia: "→" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1540, pct: 54, tendencia: "▲" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 980, pct: 35, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 760, pct: 27, tendencia: "▼" },
+    ],
+    historico: [5900, 6400, 4200, 5800, 7100, 7700, 9102],
+  },
+  "chacarita": {
+    nombre: "Chacarita", comuna: 15, temperatura: 52.8,
+    totalReclamos: 3980, tendenciaPct: 6,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1180, pct: 100, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 920, pct: 78, tendencia: "→" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 680, pct: 58, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 520, pct: 44, tendencia: "▲" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 380, pct: 32, tendencia: "▲" },
+    ],
+    historico: [3100, 3500, 2500, 3100, 3600, 3760, 3980],
+  },
+  "coghlan": {
+    nombre: "Coghlan", comuna: 12, temperatura: 32.1,
+    totalReclamos: 1240, tendenciaPct: -3,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 440, pct: 100, tendencia: "▼" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 320, pct: 73, tendencia: "▼" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 240, pct: 55, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 180, pct: 41, tendencia: "→" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 120, pct: 27, tendencia: "▼" },
+    ],
+    historico: [1100, 1280, 900, 1040, 1260, 1280, 1240],
+  },
+  "colegiales": {
+    nombre: "Colegiales", comuna: 13, temperatura: 41.5,
+    totalReclamos: 2840, tendenciaPct: 1,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 880, pct: 100, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 660, pct: 75, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 520, pct: 59, tendencia: "▲" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 380, pct: 43, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 280, pct: 32, tendencia: "▼" },
+    ],
+    historico: [2400, 2700, 1900, 2300, 2700, 2810, 2840],
+  },
+  "constitucion": {
+    nombre: "Constitución", comuna: 1, temperatura: 76.3,
+    totalReclamos: 5120, tendenciaPct: 11,
+    problemas: [
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1640, pct: 100, tendencia: "▲" },
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 1280, pct: 78, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 980, pct: 60, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 720, pct: 44, tendencia: "→" },
+      { nombre: "Ruidos molestos nocturnos", categoria: "Convivencia", total: 640, pct: 39, tendencia: "▲" },
+    ],
+    historico: [3600, 4100, 3000, 3800, 4400, 4620, 5120],
+  },
+  "flores": {
+    nombre: "Flores", comuna: 7, temperatura: 64.7,
+    totalReclamos: 7840, tendenciaPct: 9,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 2420, pct: 100, tendencia: "▲" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1680, pct: 69, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1380, pct: 57, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 980, pct: 40, tendencia: "→" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 780, pct: 32, tendencia: "▼" },
+    ],
+    historico: [5800, 6400, 4600, 5600, 6900, 7190, 7840],
+  },
+  "floresta": {
+    nombre: "Floresta", comuna: 10, temperatura: 57.4,
+    totalReclamos: 3120, tendenciaPct: 5,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 940, pct: 100, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 720, pct: 77, tendencia: "→" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 580, pct: 62, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 480, pct: 51, tendencia: "→" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 380, pct: 40, tendencia: "▲" },
+    ],
+    historico: [2400, 2700, 1900, 2400, 2900, 2980, 3120],
+  },
+  "liniers": {
+    nombre: "Liniers", comuna: 9, temperatura: 66.8,
+    totalReclamos: 4960, tendenciaPct: 10,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1560, pct: 100, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1180, pct: 76, tendencia: "▲" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 880, pct: 56, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 680, pct: 44, tendencia: "→" },
+      { nombre: "Control de plagas", categoria: "Higiene y salud pública", total: 520, pct: 33, tendencia: "▲" },
+    ],
+    historico: [3600, 4000, 2900, 3600, 4400, 4510, 4960],
+  },
+  "mataderos": {
+    nombre: "Mataderos", comuna: 9, temperatura: 73.2,
+    totalReclamos: 4480, tendenciaPct: 13,
+    problemas: [
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1480, pct: 100, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1160, pct: 78, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 820, pct: 55, tendencia: "→" },
+      { nombre: "Control de plagas", categoria: "Higiene y salud pública", total: 640, pct: 43, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 480, pct: 32, tendencia: "▲" },
+    ],
+    historico: [3200, 3600, 2500, 3100, 3800, 3960, 4480],
+  },
+  "monte_castro": {
+    nombre: "Monte Castro", comuna: 10, temperatura: 59.1,
+    totalReclamos: 2640, tendenciaPct: 6,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 820, pct: 100, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 620, pct: 76, tendencia: "→" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 480, pct: 59, tendencia: "→" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 360, pct: 44, tendencia: "▲" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 280, pct: 34, tendencia: "▲" },
+    ],
+    historico: [2100, 2300, 1700, 2100, 2400, 2490, 2640],
+  },
+  "montserrat": {
+    nombre: "Montserrat", comuna: 1, temperatura: 68.5,
+    totalReclamos: 3840, tendenciaPct: 8,
+    problemas: [
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1240, pct: 100, tendencia: "▲" },
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 980, pct: 79, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 720, pct: 58, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 560, pct: 45, tendencia: "→" },
+      { nombre: "Ruidos molestos nocturnos", categoria: "Convivencia", total: 440, pct: 35, tendencia: "▲" },
+    ],
+    historico: [2800, 3100, 2300, 2900, 3400, 3560, 3840],
+  },
+  "nueva_pompeya": {
+    nombre: "Nueva Pompeya", comuna: 4, temperatura: 82.4,
+    totalReclamos: 4960, tendenciaPct: 17,
+    problemas: [
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1720, pct: 100, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1280, pct: 74, tendencia: "▲" },
+      { nombre: "Control de plagas", categoria: "Higiene y salud pública", total: 960, pct: 56, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 680, pct: 40, tendencia: "▼" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 560, pct: 33, tendencia: "▲" },
+    ],
+    historico: [3400, 3800, 2700, 3400, 4000, 4240, 4960],
+  },
+  "nunez": {
+    nombre: "Núñez", comuna: 13, temperatura: 36.8,
+    totalReclamos: 2920, tendenciaPct: -4,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 980, pct: 100, tendencia: "▼" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 720, pct: 73, tendencia: "▼" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 520, pct: 53, tendencia: "▼" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 380, pct: 39, tendencia: "→" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 260, pct: 27, tendencia: "▲" },
+    ],
+    historico: [2800, 3100, 2200, 2700, 3100, 3040, 2920],
+  },
+  "palermo": {
+    nombre: "Palermo", comuna: 14, temperatura: 62.4,
+    totalReclamos: 8234, tendenciaPct: 12,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 2180, pct: 100, tendencia: "▲" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 1640, pct: 75, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1320, pct: 60, tendencia: "▼" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 890, pct: 41, tendencia: "→" },
+      { nombre: "Grafitis en fachadas", categoria: "Higiene urbana", total: 720, pct: 33, tendencia: "▲" },
+    ],
+    historico: [6100, 7200, 4800, 5400, 6800, 7350, 8234],
+  },
+  "parque_avellaneda": {
+    nombre: "Parque Avellaneda", comuna: 9, temperatura: 68.9,
+    totalReclamos: 3680, tendenciaPct: 11,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1160, pct: 100, tendencia: "▲" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 880, pct: 76, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 660, pct: 57, tendencia: "→" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 540, pct: 47, tendencia: "▲" },
+      { nombre: "Control de plagas", categoria: "Higiene y salud pública", total: 420, pct: 36, tendencia: "▲" },
+    ],
+    historico: [2700, 3000, 2100, 2700, 3200, 3320, 3680],
+  },
+  "parque_chacabuco": {
+    nombre: "Parque Chacabuco", comuna: 7, temperatura: 60.2,
+    totalReclamos: 4240, tendenciaPct: 7,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1320, pct: 100, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 980, pct: 74, tendencia: "→" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 720, pct: 55, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 620, pct: 47, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 480, pct: 36, tendencia: "▼" },
+    ],
+    historico: [3200, 3600, 2600, 3200, 3800, 3960, 4240],
+  },
+  "parque_chas": {
+    nombre: "Parque Chas", comuna: 15, temperatura: 40.3,
+    totalReclamos: 1480, tendenciaPct: 3,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 520, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 380, pct: 73, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 280, pct: 54, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 200, pct: 38, tendencia: "▼" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 140, pct: 27, tendencia: "▲" },
+    ],
+    historico: [1180, 1320, 960, 1160, 1380, 1440, 1480],
+  },
+  "parque_patricios": {
+    nombre: "Parque Patricios", comuna: 4, temperatura: 74.1,
+    totalReclamos: 4320, tendenciaPct: 13,
+    problemas: [
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1440, pct: 100, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1080, pct: 75, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 760, pct: 53, tendencia: "→" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 580, pct: 40, tendencia: "▲" },
+      { nombre: "Control de plagas", categoria: "Higiene y salud pública", total: 440, pct: 31, tendencia: "▲" },
+    ],
+    historico: [3100, 3500, 2500, 3100, 3700, 3820, 4320],
+  },
+  "la_paternal": {
+    nombre: "La Paternal", comuna: 15, temperatura: 54.6,
+    totalReclamos: 2780, tendenciaPct: 5,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 880, pct: 100, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 640, pct: 73, tendencia: "→" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 500, pct: 57, tendencia: "→" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 380, pct: 43, tendencia: "▲" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 280, pct: 32, tendencia: "▲" },
+    ],
+    historico: [2100, 2400, 1700, 2100, 2500, 2650, 2780],
+  },
+  "puerto_madero": {
+    nombre: "Puerto Madero", comuna: 1, temperatura: 28.4,
+    totalReclamos: 980, tendenciaPct: -10,
+    problemas: [
+      { nombre: "Obras en vía pública", categoria: "Construcción", total: 340, pct: 100, tendencia: "▼" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 240, pct: 71, tendencia: "▼" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 180, pct: 53, tendencia: "▼" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 120, pct: 35, tendencia: "→" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 80, pct: 24, tendencia: "▲" },
+    ],
+    historico: [980, 1100, 780, 920, 1080, 1090, 980],
+  },
+  "recoleta": {
+    nombre: "Recoleta", comuna: 2, temperatura: 38.5,
+    totalReclamos: 4920, tendenciaPct: -8,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1480, pct: 100, tendencia: "▼" },
+      { nombre: "Obras en vía pública", categoria: "Construcción", total: 980, pct: 66, tendencia: "▲" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 840, pct: 57, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 620, pct: 42, tendencia: "▼" },
+      { nombre: "Grafitis en fachadas", categoria: "Higiene urbana", total: 400, pct: 27, tendencia: "▲" },
+    ],
+    historico: [4800, 5400, 3600, 4100, 5200, 5350, 4920],
+  },
+  "retiro": {
+    nombre: "Retiro", comuna: 1, temperatura: 70.2,
+    totalReclamos: 3640, tendenciaPct: 9,
+    problemas: [
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1160, pct: 100, tendencia: "▲" },
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 880, pct: 76, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 680, pct: 59, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 560, pct: 48, tendencia: "▲" },
+      { nombre: "Ruidos molestos nocturnos", categoria: "Convivencia", total: 440, pct: 38, tendencia: "▲" },
+    ],
+    historico: [2700, 3000, 2200, 2800, 3200, 3340, 3640],
+  },
+  "saavedra": {
+    nombre: "Saavedra", comuna: 12, temperatura: 39.4,
+    totalReclamos: 3480, tendenciaPct: 1,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1120, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 840, pct: 75, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 620, pct: 55, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 480, pct: 43, tendencia: "▼" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 320, pct: 29, tendencia: "▲" },
+    ],
+    historico: [2900, 3300, 2400, 2900, 3400, 3450, 3480],
+  },
+  "san_cristobal": {
+    nombre: "San Cristóbal", comuna: 3, temperatura: 65.8,
+    totalReclamos: 4960, tendenciaPct: 10,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1560, pct: 100, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1180, pct: 76, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 880, pct: 56, tendencia: "→" },
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 680, pct: 44, tendencia: "▲" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 520, pct: 33, tendencia: "▲" },
+    ],
+    historico: [3600, 4100, 3000, 3700, 4300, 4510, 4960],
+  },
+  "san_nicolas": {
+    nombre: "San Nicolás", comuna: 1, temperatura: 73.6,
+    totalReclamos: 5280, tendenciaPct: 14,
+    problemas: [
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1720, pct: 100, tendencia: "▲" },
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 1340, pct: 78, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 960, pct: 56, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 740, pct: 43, tendencia: "▲" },
+      { nombre: "Ruidos molestos nocturnos", categoria: "Convivencia", total: 620, pct: 36, tendencia: "▲" },
+    ],
+    historico: [3800, 4300, 3100, 3900, 4500, 4640, 5280],
+  },
+  "san_telmo": {
+    nombre: "San Telmo", comuna: 1, temperatura: 83.2,
+    totalReclamos: 5640, tendenciaPct: 22,
+    problemas: [
+      { nombre: "Grafitis y pintadas", categoria: "Higiene urbana", total: 1680, pct: 100, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1420, pct: 85, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 980, pct: 58, tendencia: "→" },
+      { nombre: "Ruidos molestos nocturnos", categoria: "Convivencia", total: 840, pct: 50, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 720, pct: 43, tendencia: "→" },
+    ],
+    historico: [3100, 3800, 2400, 3600, 4200, 4620, 5640],
+  },
+  "velez_sarsfield": {
+    nombre: "Vélez Sársfield", comuna: 10, temperatura: 56.9,
+    totalReclamos: 2960, tendenciaPct: 5,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 920, pct: 100, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 680, pct: 74, tendencia: "→" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 520, pct: 57, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 420, pct: 46, tendencia: "→" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 340, pct: 37, tendencia: "▲" },
+    ],
+    historico: [2300, 2600, 1900, 2300, 2700, 2820, 2960],
+  },
+  "versalles": {
+    nombre: "Versalles", comuna: 10, temperatura: 47.3,
+    totalReclamos: 1640, tendenciaPct: 3,
+    problemas: [
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 560, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 420, pct: 75, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 320, pct: 57, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 240, pct: 43, tendencia: "▼" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 180, pct: 32, tendencia: "▲" },
+    ],
+    historico: [1340, 1520, 1080, 1340, 1560, 1590, 1640],
+  },
+  "villa_crespo": {
+    nombre: "Villa Crespo", comuna: 15, temperatura: 59.7,
+    totalReclamos: 4680, tendenciaPct: 8,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1440, pct: 100, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1080, pct: 75, tendencia: "→" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 820, pct: 57, tendencia: "▲" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 640, pct: 44, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 480, pct: 33, tendencia: "▼" },
+    ],
+    historico: [3500, 3900, 2800, 3500, 4200, 4330, 4680],
+  },
+  "villa_del_parque": {
+    nombre: "Villa del Parque", comuna: 11, temperatura: 50.6,
+    totalReclamos: 3840, tendenciaPct: 4,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1200, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 960, pct: 80, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 720, pct: 60, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 560, pct: 47, tendencia: "▼" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 380, pct: 32, tendencia: "▲" },
+    ],
+    historico: [3100, 3500, 2500, 3100, 3600, 3690, 3840],
+  },
+  "villa_devoto": {
+    nombre: "Villa Devoto", comuna: 11, temperatura: 48.2,
+    totalReclamos: 4120, tendenciaPct: 3,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1340, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1000, pct: 75, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 760, pct: 57, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 560, pct: 42, tendencia: "▼" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 380, pct: 28, tendencia: "▲" },
+    ],
+    historico: [3400, 3800, 2700, 3300, 3900, 4000, 4120],
+  },
+  "villa_general_mitre": {
+    nombre: "Villa Gral. Mitre", comuna: 11, temperatura: 51.4,
+    totalReclamos: 2480, tendenciaPct: 4,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 780, pct: 100, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 600, pct: 77, tendencia: "→" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 460, pct: 59, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 360, pct: 46, tendencia: "▼" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 280, pct: 36, tendencia: "▲" },
+    ],
+    historico: [1980, 2200, 1580, 1980, 2300, 2390, 2480],
+  },
+  "villa_lugano": {
+    nombre: "Villa Lugano", comuna: 8, temperatura: 91.0,
+    totalReclamos: 7320, tendenciaPct: 8,
+    problemas: [
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 2640, pct: 100, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1920, pct: 73, tendencia: "▲" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 1340, pct: 51, tendencia: "→" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 880, pct: 33, tendencia: "▼" },
+      { nombre: "Espacios verdes descuidados", categoria: "Espacios verdes", total: 540, pct: 20, tendencia: "▲" },
+    ],
+    historico: [6800, 7100, 5400, 6200, 6800, 6770, 7320],
+  },
+  "villa_luro": {
+    nombre: "Villa Luro", comuna: 10, temperatura: 61.3,
+    totalReclamos: 2960, tendenciaPct: 7,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 940, pct: 100, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 700, pct: 74, tendencia: "→" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 540, pct: 57, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 420, pct: 45, tendencia: "→" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 360, pct: 38, tendencia: "▲" },
+    ],
+    historico: [2300, 2600, 1900, 2300, 2700, 2770, 2960],
+  },
+  "villa_ortuzar": {
+    nombre: "Villa Ortúzar", comuna: 15, temperatura: 49.8,
+    totalReclamos: 2180, tendenciaPct: 3,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 700, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 540, pct: 77, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 400, pct: 57, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 300, pct: 43, tendencia: "▼" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 240, pct: 34, tendencia: "▲" },
+    ],
+    historico: [1740, 1960, 1400, 1740, 2040, 2120, 2180],
+  },
+  "villa_pueyrredon": {
+    nombre: "Villa Pueyrredón", comuna: 12, temperatura: 43.7,
+    totalReclamos: 2640, tendenciaPct: 2,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 860, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 660, pct: 77, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 500, pct: 58, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 360, pct: 42, tendencia: "▼" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 260, pct: 30, tendencia: "▲" },
+    ],
+    historico: [2180, 2460, 1760, 2180, 2540, 2580, 2640],
+  },
+  "villa_real": {
+    nombre: "Villa Real", comuna: 10, temperatura: 53.2,
+    totalReclamos: 1860, tendenciaPct: 4,
+    problemas: [
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 620, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 480, pct: 77, tendencia: "▲" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 360, pct: 58, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 280, pct: 45, tendencia: "→" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 220, pct: 35, tendencia: "▲" },
+    ],
+    historico: [1480, 1680, 1200, 1480, 1740, 1790, 1860],
+  },
+  "villa_riachuelo": {
+    nombre: "Villa Riachuelo", comuna: 8, temperatura: 86.4,
+    totalReclamos: 2840, tendenciaPct: 14,
+    problemas: [
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1040, pct: 100, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 740, pct: 71, tendencia: "▲" },
+      { nombre: "Control de plagas", categoria: "Higiene y salud pública", total: 540, pct: 52, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 340, pct: 33, tendencia: "▼" },
+      { nombre: "Basura en vía pública", categoria: "Limpieza", total: 280, pct: 27, tendencia: "▲" },
+    ],
+    historico: [1980, 2200, 1580, 1980, 2380, 2490, 2840],
+  },
+  "villa_santa_rita": {
+    nombre: "Villa Santa Rita", comuna: 11, temperatura: 54.8,
+    totalReclamos: 2620, tendenciaPct: 5,
+    problemas: [
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 840, pct: 100, tendencia: "▲" },
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 640, pct: 76, tendencia: "→" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 480, pct: 57, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 360, pct: 43, tendencia: "▼" },
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 300, pct: 36, tendencia: "▲" },
+    ],
+    historico: [2060, 2320, 1660, 2060, 2420, 2500, 2620],
+  },
+  "villa_soldati": {
+    nombre: "Villa Soldati", comuna: 8, temperatura: 88.7,
+    totalReclamos: 3960, tendenciaPct: 15,
+    problemas: [
+      { nombre: "Inundaciones y desagüe", categoria: "Infraestructura crítica", total: 1440, pct: 100, tendencia: "▲" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1040, pct: 72, tendencia: "▲" },
+      { nombre: "Control de plagas", categoria: "Higiene y salud pública", total: 780, pct: 54, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 480, pct: 33, tendencia: "▼" },
+      { nombre: "Espacios verdes descuidados", categoria: "Espacios verdes", total: 320, pct: 22, tendencia: "▲" },
+    ],
+    historico: [2760, 3080, 2220, 2760, 3280, 3440, 3960],
+  },
+  "villa_urquiza": {
+    nombre: "Villa Urquiza", comuna: 12, temperatura: 46.3,
+    totalReclamos: 4480, tendenciaPct: 2,
+    problemas: [
+      { nombre: "Poda y arbolado urbano", categoria: "Espacios verdes", total: 1440, pct: 100, tendencia: "→" },
+      { nombre: "Baches en calzada", categoria: "Infraestructura", total: 1080, pct: 75, tendencia: "▲" },
+      { nombre: "Alumbrado público", categoria: "Iluminación", total: 800, pct: 56, tendencia: "→" },
+      { nombre: "Limpieza de veredas", categoria: "Limpieza", total: 640, pct: 44, tendencia: "▼" },
+      { nombre: "Ruidos molestos", categoria: "Convivencia", total: 480, pct: 33, tendencia: "→" },
+    ],
+    historico: [3760, 4200, 3000, 3760, 4280, 4390, 4480],
+  },
+};
+
+// Promedio CABA calculado automáticamente
+const TEMP_PROMEDIO_CABA = Math.round(
+  Object.values(BARRIOS_DATA).reduce((sum, b) => sum + b.temperatura, 0) /
+  Object.values(BARRIOS_DATA).length * 10
+) / 10;

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Termómetro del Barrio · CABA</title>
+  <meta name="description" content="Reclamos ciudadanos por barrio en la Ciudad de Buenos Aires. Datos del SUACI / BA 147.">
+  <meta property="og:title" content="Termómetro del Barrio · CABA">
+  <meta property="og:description" content="¿Cuál es la temperatura de tu barrio?">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Playfair+Display+SC:wght@700;900&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --papel: #F0EBE1;
+      --papel-oscuro: #E4DDD1;
+      --tinta: #1C1916;
+      --tinta-suave: #5C5650;
+      --tinta-faint: #9C968E;
+      --rojo: #C8331A;
+      --caliente: #D94020;
+      --tibio: #B87810;
+      --templado: #3A7D5A;
+      --frio: #3B7DB5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--papel);
+      color: var(--tinta);
+      font-family: 'IBM Plex Mono', monospace;
+      min-height: 100vh;
+    }
+
+    /* ── AVISO MOCK ── */
+    .aviso-mock {
+      background: #FFF3CD;
+      color: #856404;
+      font-size: 11px;
+      padding: 6px 32px;
+      border-bottom: 1px solid #FFDA6A;
+      letter-spacing: 0.04em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      border-bottom: 3px solid var(--tinta);
+      padding: 20px 32px 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 12px;
+    }
+
+    .masthead-titulo {
+      font-family: 'Playfair Display SC', serif;
+      font-weight: 900;
+      font-size: clamp(28px, 5vw, 52px);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .masthead-meta {
+      text-align: right;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--tinta-suave);
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+
+    .masthead-linea2 {
+      padding: 6px 32px;
+      border-bottom: 1px solid var(--tinta);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tinta-suave);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    /* ── SELECTOR ── */
+    .selector-zona {
+      padding: 14px 32px;
+      border-bottom: 2px solid var(--tinta);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .selector-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tinta-suave);
+      white-space: nowrap;
+    }
+
+    .selector-barrio {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: clamp(20px, 4vw, 36px);
+      background: none;
+      border: none;
+      border-bottom: 2px dashed var(--tinta-suave);
+      color: var(--tinta);
+      cursor: pointer;
+      padding: 0 4px;
+      appearance: none;
+      -webkit-appearance: none;
+      outline: none;
+      line-height: 1.2;
+      max-width: 400px;
+    }
+
+    .selector-barrio:focus { border-bottom-color: var(--rojo); color: var(--rojo); }
+
+    .selector-flecha { font-size: 13px; color: var(--tinta-suave); pointer-events: none; margin-left: -6px; }
+
+    .selector-total {
+      font-size: 10px;
+      color: var(--tinta-faint);
+      letter-spacing: 0.12em;
+      margin-left: auto;
+      align-self: center;
+    }
+
+    /* ── CUERPO ── */
+    .cuerpo {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      min-height: calc(100vh - 180px);
+    }
+
+    @media (max-width: 560px) {
+      .cuerpo { grid-template-columns: 64px 1fr; }
+      .masthead { padding: 16px 20px 12px; }
+      .selector-zona { padding: 12px 20px; }
+      .seccion, .bloque-historico { padding-left: 16px !important; padding-right: 16px !important; }
+      .pie { padding: 10px 20px; }
+      .nota { padding: 8px 20px 12px; }
+    }
+
+    /* ── TERMÓMETRO ── */
+    .columna-termometro {
+      border-right: 2px solid var(--tinta);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 0 16px;
+      position: relative;
+    }
+
+    .termometro-label {
+      font-size: 8px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--tinta-suave);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      position: absolute;
+      bottom: 14px;
+      left: 7px;
+    }
+
+    /* ── CONTENIDO ── */
+    .columna-contenido { display: flex; flex-direction: column; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 18px 28px 14px;
+      border-bottom: 1px solid var(--papel-oscuro);
+    }
+
+    .hero-sup {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--tinta-suave);
+      margin-bottom: 4px;
+    }
+
+    .hero-temp {
+      font-weight: 600;
+      font-size: clamp(52px, 11vw, 88px);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      transition: color 0.35s ease;
+    }
+
+    .hero-nombre {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(14px, 2.8vw, 20px);
+      color: var(--tinta-suave);
+      margin-top: 6px;
+    }
+
+    .hero-diagnostico {
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      margin-top: 10px;
+      padding: 6px 10px;
+      border-left: 3px solid currentColor;
+      display: inline-block;
+      line-height: 1.5;
+      max-width: 440px;
+    }
+
+    /* ── SECCIONES ── */
+    .seccion { padding: 0 28px; }
+
+    .seccion-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0 0;
+      border-bottom: 2px solid var(--tinta);
+      margin-bottom: 0;
+    }
+
+    .seccion-header-texto {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .seccion-header-linea { flex: 1; height: 1px; background: var(--tinta); }
+
+    .seccion-header-num {
+      font-size: 9px;
+      color: var(--tinta-suave);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+
+    /* ── PROBLEMAS ── */
+    .problema {
+      display: grid;
+      grid-template-columns: 18px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--papel-oscuro);
+      transition: background 0.12s;
+      cursor: default;
+    }
+
+    .problema:hover {
+      background: var(--papel-oscuro);
+      margin: 0 -28px;
+      padding: 10px 28px;
+    }
+
+    .problema-num { font-weight: 600; font-size: 10px; color: var(--tinta-suave); text-align: right; }
+    .problema-cuerpo { min-width: 0; }
+
+    .problema-nombre {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--tinta);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .problema-barra-wrap { margin-top: 4px; height: 3px; background: var(--papel-oscuro); overflow: hidden; }
+    .problema-barra { height: 100%; transition: width 0.5s ease; }
+
+    .problema-categoria {
+      font-size: 9px;
+      color: var(--tinta-faint);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .problema-total { font-size: 13px; font-weight: 600; text-align: right; white-space: nowrap; }
+    .problema-tendencia { font-size: 10px; margin-left: 3px; }
+
+    /* ── HISTÓRICO ── */
+    .bloque-historico { padding: 0 28px 18px; }
+    .spark-contenedor { position: relative; height: 58px; margin-top: 8px; }
+    .spark-svg { width: 100%; height: 100%; }
+
+    .spark-anos {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .spark-ano { font-size: 8px; color: var(--tinta-faint); letter-spacing: 0.06em; }
+
+    /* ── PIE ── */
+    .pie {
+      border-top: 3px solid var(--tinta);
+      padding: 11px 32px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .pie-label {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tinta-suave);
+      white-space: nowrap;
+    }
+
+    .comparativa-barra { position: relative; height: 16px; background: var(--papel-oscuro); }
+
+    .comparativa-fill {
+      position: absolute;
+      top: 0; left: 0; height: 100%;
+      transition: width 0.4s ease;
+    }
+
+    .comparativa-ciudad {
+      position: absolute;
+      top: 0; height: 100%;
+      width: 1.5px;
+      background: var(--tinta);
+    }
+
+    .comparativa-ciudad-label {
+      position: absolute;
+      top: -14px;
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--tinta-suave);
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    .pie-valor { font-size: 12px; font-weight: 600; white-space: nowrap; }
+
+    /* ── NOTA ── */
+    .nota {
+      padding: 7px 32px 12px;
+      font-size: 8px;
+      letter-spacing: 0.05em;
+      color: var(--tinta-faint);
+      border-top: 1px solid var(--papel-oscuro);
+      line-height: 1.7;
+    }
+
+    /* ── ANIMACIÓN ── */
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: fadeSlide 0.3s ease forwards; }
+  </style>
+</head>
+
+<body>
+
+  <!-- Script de datos — si existe data.js real, sobrescribe el mock -->
+  <script src="data.js"></script>
+
+  <!-- AVISO MOCK (se oculta si los datos son reales) -->
+  <div class="aviso-mock" id="aviso-mock">
+    <span>⚠ Datos de ejemplo — para datos reales: <code>python pipeline.py --export</code></span>
+    <span>data.buenosaires.gob.ar · SUACI</span>
+  </div>
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <h1 class="masthead-titulo">Termómetro<br>del Barrio</h1>
+    <div class="masthead-meta">
+      Ciudad de Buenos Aires<br>
+      Datos SUACI · 2011–2024<br>
+      <span id="fecha-actual"></span>
+    </div>
+  </header>
+
+  <div class="masthead-linea2">
+    <span>Sistema Único de Atención Ciudadana · BA Data</span>
+    <span id="total-barrios-label"></span>
+  </div>
+
+  <!-- SELECTOR -->
+  <div class="selector-zona">
+    <span class="selector-label">Barrio</span>
+    <select class="selector-barrio" id="selector" onchange="actualizarBarrio(this.value)"></select>
+    <span class="selector-flecha">▾</span>
+    <span class="selector-total" id="selector-total"></span>
+  </div>
+
+  <!-- CUERPO -->
+  <div class="cuerpo">
+
+    <!-- TERMÓMETRO -->
+    <div class="columna-termometro">
+      <svg id="termometro-svg" width="40" height="320" viewBox="0 0 40 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ticks -->
+        <line x1="23" y1="28"  x2="30" y2="28"  stroke="#9C968E" stroke-width="0.5"/>
+        <line x1="25" y1="55"  x2="28" y2="55"  stroke="#9C968E" stroke-width="0.5"/>
+        <line x1="23" y1="82"  x2="30" y2="82"  stroke="#9C968E" stroke-width="0.5"/>
+        <line x1="25" y1="109" x2="28" y2="109" stroke="#9C968E" stroke-width="0.5"/>
+        <line x1="23" y1="136" x2="30" y2="136" stroke="#9C968E" stroke-width="0.5"/>
+        <line x1="25" y1="163" x2="28" y2="163" stroke="#9C968E" stroke-width="0.5"/>
+        <line x1="23" y1="190" x2="30" y2="190" stroke="#9C968E" stroke-width="0.5"/>
+        <line x1="25" y1="217" x2="28" y2="217" stroke="#9C968E" stroke-width="0.5"/>
+        <line x1="23" y1="244" x2="30" y2="244" stroke="#9C968E" stroke-width="0.5"/>
+        <!-- Etiquetas -->
+        <text x="19" y="30"  text-anchor="end" font-family="IBM Plex Mono" font-size="7" fill="#9C968E">100</text>
+        <text x="19" y="84"  text-anchor="end" font-family="IBM Plex Mono" font-size="7" fill="#9C968E">67</text>
+        <text x="19" y="138" text-anchor="end" font-family="IBM Plex Mono" font-size="7" fill="#9C968E">33</text>
+        <text x="19" y="246" text-anchor="end" font-family="IBM Plex Mono" font-size="7" fill="#9C968E">0</text>
+        <!-- Tubo fondo -->
+        <rect x="16" y="24" width="10" height="228" rx="5" fill="#E4DDD1" stroke="#1C1916" stroke-width="1"/>
+        <!-- Mercurio -->
+        <rect id="mercurio-fill" x="18" y="180" width="6" height="72" rx="0" fill="#D94020"/>
+        <!-- Tubo borde (encima del mercurio) -->
+        <rect x="16" y="24" width="10" height="228" rx="5" fill="none" stroke="#1C1916" stroke-width="1"/>
+        <!-- Bulbo -->
+        <circle cx="21" cy="264" r="12" fill="#D94020" stroke="#1C1916" stroke-width="1"/>
+        <circle cx="21" cy="264" r="7.5" fill="#E8501D"/>
+      </svg>
+      <span class="termometro-label">Temperatura</span>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="columna-contenido" id="contenido-principal">
+
+      <div class="hero">
+        <div class="hero-sup">Temperatura del barrio · 2024</div>
+        <div class="hero-temp" id="hero-temp">—</div>
+        <div class="hero-nombre" id="hero-nombre">Seleccioná un barrio</div>
+        <div class="hero-diagnostico" id="hero-diagnostico" style="color: var(--tinta-suave); border-color: var(--tinta-suave);">
+          Cargando datos…
+        </div>
+      </div>
+
+      <div class="seccion">
+        <div class="seccion-header">
+          <span class="seccion-header-texto">Principales problemas</span>
+          <div class="seccion-header-linea"></div>
+          <span class="seccion-header-num" id="total-reclamos">—</span>
+        </div>
+        <div id="lista-problemas"></div>
+
+        <div class="bloque-historico" style="margin-top: 6px;">
+          <div class="seccion-header" style="padding-top: 10px;">
+            <span class="seccion-header-texto">Evolución 2018–2024</span>
+            <div class="seccion-header-linea"></div>
+          </div>
+          <div class="spark-contenedor">
+            <svg class="spark-svg" id="spark-svg" viewBox="0 0 400 58" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="spark-anos">
+            <span class="spark-ano">2018</span>
+            <span class="spark-ano">2019</span>
+            <span class="spark-ano">2020</span>
+            <span class="spark-ano">2021</span>
+            <span class="spark-ano">2022</span>
+            <span class="spark-ano">2023</span>
+            <span class="spark-ano">2024</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PIE -->
+  <div class="pie">
+    <span class="pie-label">vs. ciudad</span>
+    <div class="comparativa-barra">
+      <div class="comparativa-fill" id="comp-fill" style="width: 50%;"></div>
+      <div class="comparativa-ciudad" id="comp-ciudad" style="left: 50%;">
+        <span class="comparativa-ciudad-label">Prom. CABA</span>
+      </div>
+    </div>
+    <span class="pie-valor" id="comp-valor">—</span>
+  </div>
+
+  <div class="nota">
+    Fuente: Sistema Único de Atención Ciudadana (SUACI / BA 147) — Gobierno de la Ciudad de Buenos Aires · data.buenosaires.gob.ar ·
+    La temperatura es un índice compuesto (0–100): volumen de reclamos normalizado + peso de categorías críticas + tendencia interanual.
+    No representa temperatura meteorológica.
+    <span id="nota-mock"></span>
+  </div>
+
+
+  <script>
+    // ─────────────────────────────────────────────
+    // UTILS
+    // ─────────────────────────────────────────────
+    const COLOR_TEMP = t => {
+      if (t >= 80) return "#C8331A";
+      if (t >= 65) return "#D94020";
+      if (t >= 50) return "#B87810";
+      if (t >= 35) return "#3A7D5A";
+      return "#3B7DB5";
+    };
+
+    const DIAG = (d, t) => {
+      const signo = d.tendenciaPct > 0 ? `+${d.tendenciaPct}%` : `${d.tendenciaPct}%`;
+      if (t >= 80) return `Nivel crítico. ${signo} respecto al año anterior. Problemas estructurales sin resolución.`;
+      if (t >= 65) return `Zona caliente. ${signo} respecto al año anterior. Requiere atención sostenida.`;
+      if (t >= 50) return `Zona templada. ${signo}. Problemas persistentes pero manejables.`;
+      if (t >= 35) return `Zona fría. ${signo}. Situación estable con margen de mejora.`;
+      return `Zona muy fría. ${signo}. Uno de los barrios con menos reclamos de la Ciudad.`;
+    };
+
+    // ─────────────────────────────────────────────
+    // INIT: poblar selector con los 48 barrios
+    // ─────────────────────────────────────────────
+    const slugs = Object.keys(BARRIOS_DATA).sort((a, b) =>
+      BARRIOS_DATA[a].nombre.localeCompare(BARRIOS_DATA[b].nombre, "es")
+    );
+
+    const sel = document.getElementById("selector");
+    slugs.forEach(slug => {
+      const opt = document.createElement("option");
+      opt.value = slug;
+      opt.textContent = BARRIOS_DATA[slug].nombre;
+      sel.appendChild(opt);
+    });
+
+    document.getElementById("total-barrios-label").textContent =
+      `${slugs.length} barrios · 48 comunas de CABA`;
+
+    // Ocultar aviso mock si los datos son reales
+    if (typeof DATOS_MOCK === "undefined" || !DATOS_MOCK) {
+      document.getElementById("aviso-mock").style.display = "none";
+    } else {
+      document.getElementById("nota-mock").textContent =
+        " · Los datos actuales son de ejemplo. Corrés pipeline.py --export para usar datos reales del SUACI.";
+    }
+
+    document.getElementById("fecha-actual").textContent =
+      new Date().toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" });
+
+    // ─────────────────────────────────────────────
+    // RENDER
+    // ─────────────────────────────────────────────
+    function actualizarBarrio(slug) {
+      const d = BARRIOS_DATA[slug];
+      if (!d) return;
+
+      const color = COLOR_TEMP(d.temperatura);
+      const promedio = typeof TEMP_PROMEDIO_CABA !== "undefined" ? TEMP_PROMEDIO_CABA : 55;
+
+      // Hero
+      document.getElementById("hero-temp").textContent  = d.temperatura.toFixed(1) + "°";
+      document.getElementById("hero-temp").style.color  = color;
+      document.getElementById("hero-nombre").textContent = `${d.nombre} · Comuna ${d.comuna}`;
+      document.getElementById("total-reclamos").textContent =
+        `${d.totalReclamos.toLocaleString("es-AR")} reclamos · 2024`;
+
+      const diag = document.getElementById("hero-diagnostico");
+      diag.textContent       = DIAG(d, d.temperatura);
+      diag.style.color       = color;
+      diag.style.borderColor = color;
+
+      // Termómetro SVG
+      const tubeH = 228, tubeBottom = 252;
+      const fillH = Math.max(4, Math.round(tubeH * d.temperatura / 100));
+      const fillY = tubeBottom - fillH;
+      const m = document.getElementById("mercurio-fill");
+      m.setAttribute("y",      fillY);
+      m.setAttribute("height", fillH);
+      m.setAttribute("fill",   color);
+      m.setAttribute("rx",     fillH > 220 ? "4" : "0");
+      // Bulbo
+      document.querySelectorAll("#termometro-svg circle").forEach(c => c.style.fill = "");
+      const [bulboOut, bulboIn] = document.querySelectorAll("#termometro-svg circle");
+      bulboOut.setAttribute("fill", color);
+      bulboIn.setAttribute("fill",  color);
+
+      // Comparativa pie
+      document.getElementById("comp-fill").style.width      = `${d.temperatura}%`;
+      document.getElementById("comp-fill").style.background = color;
+      document.getElementById("comp-ciudad").style.left     = `${promedio}%`;
+      document.getElementById("comp-valor").textContent     =
+        `${d.temperatura.toFixed(0)}° vs. ${promedio.toFixed(0)}° CABA`;
+
+      renderProblemas(d.problemas, color);
+      renderSparkline(d.historico, color);
+
+      // Animación
+      const el = document.getElementById("contenido-principal");
+      el.classList.remove("animate-in");
+      void el.offsetWidth;
+      el.classList.add("animate-in");
+
+      // Actualizar URL (sin recargar) — útil para compartir
+      history.replaceState(null, "", `?b=${slug}`);
+    }
+
+    function renderProblemas(problemas, color) {
+      const lista = document.getElementById("lista-problemas");
+      lista.innerHTML = "";
+      problemas.forEach((p, i) => {
+        const tc = p.tendencia === "▲" ? "#C8331A" : p.tendencia === "▼" ? "#3A7D5A" : "#9C968E";
+        const div = document.createElement("div");
+        div.className = "problema";
+        div.innerHTML = `
+          <span class="problema-num">${i + 1}</span>
+          <div class="problema-cuerpo">
+            <div class="problema-nombre">${p.nombre}</div>
+            <div class="problema-barra-wrap">
+              <div class="problema-barra" style="width:${p.pct}%;background:${color}"></div>
+            </div>
+            <div class="problema-categoria">${p.categoria}</div>
+          </div>
+          <div>
+            <div class="problema-total" style="color:${color}">
+              ${p.total.toLocaleString("es-AR")}
+              <span class="problema-tendencia" style="color:${tc}">${p.tendencia}</span>
+            </div>
+          </div>`;
+        lista.appendChild(div);
+      });
+    }
+
+    function renderSparkline(data, color) {
+      const svg = document.getElementById("spark-svg");
+      if (!data || data.length < 2) return;
+      const W = 400, H = 58;
+      const min = Math.min(...data) * 0.88;
+      const max = Math.max(...data) * 1.06;
+      const xs = i => Math.round(i * W / (data.length - 1));
+      const ys = v => Math.round(H - ((v - min) / (max - min)) * H * 0.82 - H * 0.05);
+      const pts = data.map((v, i) => `${xs(i)},${ys(v)}`).join(" ");
+      const area = data.map((v, i) => `${xs(i)},${ys(v)}`).join(" L") +
+                   ` L${xs(data.length - 1)},${H} L0,${H} Z`;
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="${color}" stop-opacity=".22"/>
+            <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M${area}" fill="url(#sg)"/>
+        <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.4"
+          stroke-linejoin="round" stroke-linecap="round"/>
+        ${data.map((v, i) => `
+          <circle cx="${xs(i)}" cy="${ys(v)}" r="${i === data.length-1 ? 2.8 : 1.4}"
+            fill="${i === data.length-1 ? color : "var(--papel-oscuro)"}"
+            stroke="${color}" stroke-width="1"/>`).join("")}`;
+    }
+
+    // ─────────────────────────────────────────────
+    // ARRANQUE — leer ?b=slug de la URL si existe
+    // ─────────────────────────────────────────────
+    const params = new URLSearchParams(location.search);
+    const slugInicial = params.get("b") || slugs[0];
+    sel.value = slugInicial;
+    actualizarBarrio(slugInicial);
+  </script>
+
+</body>
+</html>
