@@ -3,670 +3,345 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Termómetro del Barrio · CABA</title>
-  <meta name="description" content="Reclamos ciudadanos por barrio en la Ciudad de Buenos Aires. Datos del SUACI / BA 147.">
-  <meta property="og:title" content="Termómetro del Barrio · CABA">
-  <meta property="og:description" content="¿Cuál es la temperatura de tu barrio?">
-  <meta property="og:type" content="website">
-
+  <title>Índice de Reclamos · CABA por Barrio</title>
+  <meta name="description" content="Índice 0–100 de reclamos ciudadanos por barrio en la Ciudad de Buenos Aires. Datos del SUACI / BA 147.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Playfair+Display+SC:wght@700;900&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --papel: #F0EBE1;
-      --papel-oscuro: #E4DDD1;
-      --tinta: #1C1916;
-      --tinta-suave: #5C5650;
-      --tinta-faint: #9C968E;
-      --rojo: #C8331A;
-      --caliente: #D94020;
-      --tibio: #B87810;
-      --templado: #3A7D5A;
-      --frio: #3B7DB5;
+      --bg:       #FFFFFF;
+      --bg-s:     #F6F7F9;
+      --bg-h:     #F0F2F5;
+      --ink:      #111827;
+      --ink-2:    #4B5563;
+      --ink-3:    #9CA3AF;
+      --border:   #E5E7EB;
+      --border-2: #D1D5DB;
+      --r:        8px;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--ink); font-family: 'Figtree', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* HEADER */
+    .hdr { border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .hdr-brand { display: flex; align-items: baseline; gap: 10px; }
+    .hdr-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -.02em; }
+    .hdr-sep { width: 1px; height: 15px; background: var(--border-2); align-self: center; }
+    .hdr-sub { font-size: 12px; color: var(--ink-3); }
+    .hdr-src { font-size: 11px; color: var(--ink-3); text-align: right; line-height: 1.5; }
+    .hdr-src a { color: var(--ink-3); text-decoration: underline; text-decoration-color: var(--border-2); }
 
-    body {
-      background: var(--papel);
-      color: var(--tinta);
-      font-family: 'IBM Plex Mono', monospace;
-      min-height: 100vh;
+    /* MAIN */
+    .main { max-width: 660px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    /* AVISO */
+    .aviso { background: #FFF8E7; border: 1px solid #FDE68A; border-radius: var(--r); padding: 9px 14px; font-size: 12px; color: #92400E; margin-bottom: 20px; }
+
+    /* SELECTOR */
+    .sel-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+    .sel-wrap { position: relative; display: inline-block; width: 100%; max-width: 340px; margin-bottom: 28px; }
+    .sel-wrap::after { content: ""; pointer-events: none; position: absolute; right: 13px; top: 50%; transform: translateY(-50%); border: 5px solid transparent; border-top-color: var(--ink-2); margin-top: 2px; }
+    .sel { width: 100%; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 15px; color: var(--ink); background: var(--bg-s); border: 1.5px solid var(--border-2); border-radius: var(--r); padding: 10px 36px 10px 13px; appearance: none; -webkit-appearance: none; cursor: pointer; outline: none; transition: border-color .15s; }
+    .sel:focus { border-color: var(--ink-2); }
+
+    /* EXPLICACIÓN */
+    .explic { background: var(--bg-s); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; margin-bottom: 20px; font-size: 12px; color: var(--ink-2); line-height: 1.65; display: flex; gap: 10px; }
+    .explic strong { color: var(--ink); font-weight: 600; }
+
+    /* BLOQUE ÍNDICE */
+    .idx-bloque { background: var(--bg-s); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 24px; }
+    .idx-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .idx-nombre { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -.02em; line-height: 1.2; }
+    .idx-meta { display: block; font-size: 12px; font-weight: 400; color: var(--ink-3); font-family: 'Figtree', sans-serif; margin-top: 2px; }
+    .idx-num-wrap { text-align: right; flex-shrink: 0; }
+    .idx-num { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 40px; letter-spacing: -.03em; line-height: 1; transition: color .3s; }
+    .idx-num-lbl { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
+
+    /* GAUGE */
+    .gauge-track { height: 8px; background: var(--border); border-radius: 99px; position: relative; margin-bottom: 5px; overflow: visible; }
+    .gauge-fill { height: 100%; border-radius: 99px; transition: width .5s cubic-bezier(.4,0,.2,1), background .4s; position: relative; }
+    .gauge-fill::after { content: ''; position: absolute; right: -1px; top: -3px; width: 14px; height: 14px; border-radius: 50%; background: currentColor; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,.18); }
+    .gauge-esc { display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace; }
+
+    /* DIAGNÓSTICO */
+    .diag { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 13px; font-size: 13px; color: var(--ink-2); display: flex; gap: 8px; align-items: flex-start; }
+    .diag-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; transition: background .3s; }
+
+    /* VS CIUDAD */
+    .vs { display: flex; align-items: center; gap: 10px; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--ink-3); }
+    .vs-track { flex: 1; height: 4px; background: var(--border); border-radius: 99px; position: relative; }
+    .vs-fill { height: 100%; border-radius: 99px; transition: width .5s; }
+    .vs-mark { position: absolute; top: -4px; width: 2px; height: 12px; background: var(--ink-3); border-radius: 1px; }
+    .vs-mark-lbl { position: absolute; top: -15px; font-size: 9px; color: var(--ink-3); transform: translateX(-50%); white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
+    .vs-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+
+    /* SECCIÓN */
+    .sec-hdr { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); display: flex; justify-content: space-between; margin-bottom: 2px; }
+    .sec-hdr-r { font-family: 'JetBrains Mono', monospace; font-weight: 400; letter-spacing: 0; text-transform: none; }
+    .sec-div { height: 1px; background: var(--border); margin-bottom: 0; }
+
+    /* PROBLEMAS */
+    .prob { display: grid; grid-template-columns: 18px 1fr 68px; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--bg-h); transition: background .1s; cursor: default; }
+    .prob:last-child { border-bottom: none; }
+    .prob:hover { background: var(--bg-h); margin: 0 -10px; padding: 10px 10px; border-radius: var(--r); border-bottom-color: transparent; }
+    .p-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3); text-align: right; }
+    .p-body { min-width: 0; }
+    .p-nombre { font-size: 14px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .p-barra-w { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; margin-top: 4px; }
+    .p-barra { height: 100%; border-radius: 99px; transition: width .4s cubic-bezier(.4,0,.2,1); }
+    .p-cat { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
+    .p-right { text-align: right; }
+    .p-total { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; }
+    .p-tend { font-size: 11px; display: block; margin-top: 1px; }
+
+    /* HISTÓRICO */
+    .hist { margin-top: 24px; }
+    .spark-w { height: 54px; margin-top: 8px; }
+    .spark-w svg { width: 100%; height: 100%; }
+    .spark-años { display: flex; justify-content: space-between; margin-top: 3px; }
+    .spark-año { font-size: 10px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace; }
+
+    /* FOOTER */
+    .footer { border-top: 1px solid var(--border); padding: 14px 24px; font-size: 11px; color: var(--ink-3); line-height: 1.7; }
+
+    /* ANIMACIÓN */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeUp .26s ease forwards; }
+
+    @media (max-width: 480px) {
+      .hdr { padding: 12px 16px; } .hdr-src { display: none; }
+      .main { padding: 18px 16px 48px; }
+      .idx-num { font-size: 34px; } .idx-nombre { font-size: 18px; }
     }
-
-    /* ── AVISO MOCK ── */
-    .aviso-mock {
-      background: #FFF3CD;
-      color: #856404;
-      font-size: 11px;
-      padding: 6px 32px;
-      border-bottom: 1px solid #FFDA6A;
-      letter-spacing: 0.04em;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    /* ── MASTHEAD ── */
-    .masthead {
-      border-bottom: 3px solid var(--tinta);
-      padding: 20px 32px 14px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: end;
-      gap: 12px;
-    }
-
-    .masthead-titulo {
-      font-family: 'Playfair Display SC', serif;
-      font-weight: 900;
-      font-size: clamp(28px, 5vw, 52px);
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    .masthead-meta {
-      text-align: right;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      color: var(--tinta-suave);
-      line-height: 1.8;
-      text-transform: uppercase;
-    }
-
-    .masthead-linea2 {
-      padding: 6px 32px;
-      border-bottom: 1px solid var(--tinta);
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--tinta-suave);
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    /* ── SELECTOR ── */
-    .selector-zona {
-      padding: 14px 32px;
-      border-bottom: 2px solid var(--tinta);
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .selector-label {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--tinta-suave);
-      white-space: nowrap;
-    }
-
-    .selector-barrio {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      font-style: italic;
-      font-size: clamp(20px, 4vw, 36px);
-      background: none;
-      border: none;
-      border-bottom: 2px dashed var(--tinta-suave);
-      color: var(--tinta);
-      cursor: pointer;
-      padding: 0 4px;
-      appearance: none;
-      -webkit-appearance: none;
-      outline: none;
-      line-height: 1.2;
-      max-width: 400px;
-    }
-
-    .selector-barrio:focus { border-bottom-color: var(--rojo); color: var(--rojo); }
-
-    .selector-flecha { font-size: 13px; color: var(--tinta-suave); pointer-events: none; margin-left: -6px; }
-
-    .selector-total {
-      font-size: 10px;
-      color: var(--tinta-faint);
-      letter-spacing: 0.12em;
-      margin-left: auto;
-      align-self: center;
-    }
-
-    /* ── CUERPO ── */
-    .cuerpo {
-      display: grid;
-      grid-template-columns: 90px 1fr;
-      min-height: calc(100vh - 180px);
-    }
-
-    @media (max-width: 560px) {
-      .cuerpo { grid-template-columns: 64px 1fr; }
-      .masthead { padding: 16px 20px 12px; }
-      .selector-zona { padding: 12px 20px; }
-      .seccion, .bloque-historico { padding-left: 16px !important; padding-right: 16px !important; }
-      .pie { padding: 10px 20px; }
-      .nota { padding: 8px 20px 12px; }
-    }
-
-    /* ── TERMÓMETRO ── */
-    .columna-termometro {
-      border-right: 2px solid var(--tinta);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px 0 16px;
-      position: relative;
-    }
-
-    .termometro-label {
-      font-size: 8px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--tinta-suave);
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      position: absolute;
-      bottom: 14px;
-      left: 7px;
-    }
-
-    /* ── CONTENIDO ── */
-    .columna-contenido { display: flex; flex-direction: column; }
-
-    /* ── HERO ── */
-    .hero {
-      padding: 18px 28px 14px;
-      border-bottom: 1px solid var(--papel-oscuro);
-    }
-
-    .hero-sup {
-      font-size: 9px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--tinta-suave);
-      margin-bottom: 4px;
-    }
-
-    .hero-temp {
-      font-weight: 600;
-      font-size: clamp(52px, 11vw, 88px);
-      line-height: 0.9;
-      letter-spacing: -0.04em;
-      transition: color 0.35s ease;
-    }
-
-    .hero-nombre {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(14px, 2.8vw, 20px);
-      color: var(--tinta-suave);
-      margin-top: 6px;
-    }
-
-    .hero-diagnostico {
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      margin-top: 10px;
-      padding: 6px 10px;
-      border-left: 3px solid currentColor;
-      display: inline-block;
-      line-height: 1.5;
-      max-width: 440px;
-    }
-
-    /* ── SECCIONES ── */
-    .seccion { padding: 0 28px; }
-
-    .seccion-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 0 0;
-      border-bottom: 2px solid var(--tinta);
-      margin-bottom: 0;
-    }
-
-    .seccion-header-texto {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .seccion-header-linea { flex: 1; height: 1px; background: var(--tinta); }
-
-    .seccion-header-num {
-      font-size: 9px;
-      color: var(--tinta-suave);
-      letter-spacing: 0.1em;
-      white-space: nowrap;
-    }
-
-    /* ── PROBLEMAS ── */
-    .problema {
-      display: grid;
-      grid-template-columns: 18px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--papel-oscuro);
-      transition: background 0.12s;
-      cursor: default;
-    }
-
-    .problema:hover {
-      background: var(--papel-oscuro);
-      margin: 0 -28px;
-      padding: 10px 28px;
-    }
-
-    .problema-num { font-weight: 600; font-size: 10px; color: var(--tinta-suave); text-align: right; }
-    .problema-cuerpo { min-width: 0; }
-
-    .problema-nombre {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--tinta);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .problema-barra-wrap { margin-top: 4px; height: 3px; background: var(--papel-oscuro); overflow: hidden; }
-    .problema-barra { height: 100%; transition: width 0.5s ease; }
-
-    .problema-categoria {
-      font-size: 9px;
-      color: var(--tinta-faint);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
-    .problema-total { font-size: 13px; font-weight: 600; text-align: right; white-space: nowrap; }
-    .problema-tendencia { font-size: 10px; margin-left: 3px; }
-
-    /* ── HISTÓRICO ── */
-    .bloque-historico { padding: 0 28px 18px; }
-    .spark-contenedor { position: relative; height: 58px; margin-top: 8px; }
-    .spark-svg { width: 100%; height: 100%; }
-
-    .spark-anos {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 4px;
-    }
-
-    .spark-ano { font-size: 8px; color: var(--tinta-faint); letter-spacing: 0.06em; }
-
-    /* ── PIE ── */
-    .pie {
-      border-top: 3px solid var(--tinta);
-      padding: 11px 32px;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .pie-label {
-      font-size: 8px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--tinta-suave);
-      white-space: nowrap;
-    }
-
-    .comparativa-barra { position: relative; height: 16px; background: var(--papel-oscuro); }
-
-    .comparativa-fill {
-      position: absolute;
-      top: 0; left: 0; height: 100%;
-      transition: width 0.4s ease;
-    }
-
-    .comparativa-ciudad {
-      position: absolute;
-      top: 0; height: 100%;
-      width: 1.5px;
-      background: var(--tinta);
-    }
-
-    .comparativa-ciudad-label {
-      position: absolute;
-      top: -14px;
-      font-size: 7px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--tinta-suave);
-      transform: translateX(-50%);
-      white-space: nowrap;
-    }
-
-    .pie-valor { font-size: 12px; font-weight: 600; white-space: nowrap; }
-
-    /* ── NOTA ── */
-    .nota {
-      padding: 7px 32px 12px;
-      font-size: 8px;
-      letter-spacing: 0.05em;
-      color: var(--tinta-faint);
-      border-top: 1px solid var(--papel-oscuro);
-      line-height: 1.7;
-    }
-
-    /* ── ANIMACIÓN ── */
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(5px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .animate-in { animation: fadeSlide 0.3s ease forwards; }
   </style>
 </head>
-
 <body>
 
-  <!-- Script de datos — si existe data.js real, sobrescribe el mock -->
-  <script src="data.js"></script>
+<script src="data.js"></script>
 
-  <!-- AVISO MOCK (se oculta si los datos son reales) -->
-  <div class="aviso-mock" id="aviso-mock">
-    <span>⚠ Datos de ejemplo — para datos reales: <code>python pipeline.py --export</code></span>
-    <span>data.buenosaires.gob.ar · SUACI</span>
+<header class="hdr">
+  <div class="hdr-brand">
+    <span class="hdr-title">Termómetro del Barrio</span>
+    <div class="hdr-sep"></div>
+    <span class="hdr-sub">Ciudad de Buenos Aires</span>
+  </div>
+  <div class="hdr-src">
+    SUACI · BA Data<br>
+    <a href="https://data.buenosaires.gob.ar" target="_blank">data.buenosaires.gob.ar</a>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="aviso" id="aviso" style="display:none">
+    ⚠ Datos de ejemplo — para datos reales del SUACI: <code>python pipeline.py --export</code>
   </div>
 
-  <!-- MASTHEAD -->
-  <header class="masthead">
-    <h1 class="masthead-titulo">Termómetro<br>del Barrio</h1>
-    <div class="masthead-meta">
-      Ciudad de Buenos Aires<br>
-      Datos SUACI · 2011–2024<br>
-      <span id="fecha-actual"></span>
+  <label class="sel-label" for="sel">Elegí tu barrio</label>
+  <div class="sel-wrap">
+    <select class="sel" id="sel" onchange="cambiar(this.value, true)"></select>
+  </div>
+
+  <div class="explic">
+    <span style="font-size:15px;flex-shrink:0;margin-top:1px">ⓘ</span>
+    <div>
+      <strong>¿Qué es el índice?</strong> Un número de 0 a 100 que muestra el nivel de reclamos de un barrio
+      <em>en relación al barrio con más reclamos de toda la Ciudad</em> — igual que Google Trends.
+      <strong>100</strong> = máximo histórico. <strong>0</strong> = sin reclamos. Combina volumen total,
+      proporción de reclamos críticos (inundaciones, baches, plagas) y tendencia interanual.
     </div>
-  </header>
-
-  <div class="masthead-linea2">
-    <span>Sistema Único de Atención Ciudadana · BA Data</span>
-    <span id="total-barrios-label"></span>
   </div>
 
-  <!-- SELECTOR -->
-  <div class="selector-zona">
-    <span class="selector-label">Barrio</span>
-    <select class="selector-barrio" id="selector" onchange="actualizarBarrio(this.value)"></select>
-    <span class="selector-flecha">▾</span>
-    <span class="selector-total" id="selector-total"></span>
-  </div>
-
-  <!-- CUERPO -->
-  <div class="cuerpo">
-
-    <!-- TERMÓMETRO -->
-    <div class="columna-termometro">
-      <svg id="termometro-svg" width="40" height="320" viewBox="0 0 40 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Ticks -->
-        <line x1="23" y1="28"  x2="30" y2="28"  stroke="#9C968E" stroke-width="0.5"/>
-        <line x1="25" y1="55"  x2="28" y2="55"  stroke="#9C968E" stroke-width="0.5"/>
-        <line x1="23" y1="82"  x2="30" y2="82"  stroke="#9C968E" stroke-width="0.5"/>
-        <line x1="25" y1="109" x2="28" y2="109" stroke="#9C968E" stroke-width="0.5"/>
-        <line x1="23" y1="136" x2="30" y2="136" stroke="#9C968E" stroke-width="0.5"/>
-        <line x1="25" y1="163" x2="28" y2="163" stroke="#9C968E" stroke-width="0.5"/>
-        <line x1="23" y1="190" x2="30" y2="190" stroke="#9C968E" stroke-width="0.5"/>
-        <line x1="25" y1="217" x2="28" y2="217" stroke="#9C968E" stroke-width="0.5"/>
-        <line x1="23" y1="244" x2="30" y2="244" stroke="#9C968E" stroke-width="0.5"/>
-        <!-- Etiquetas -->
-        <text x="19" y="30"  text-anchor="end" font-family="IBM Plex Mono" font-size="7" fill="#9C968E">100</text>
-        <text x="19" y="84"  text-anchor="end" font-family="IBM Plex Mono" font-size="7" fill="#9C968E">67</text>
-        <text x="19" y="138" text-anchor="end" font-family="IBM Plex Mono" font-size="7" fill="#9C968E">33</text>
-        <text x="19" y="246" text-anchor="end" font-family="IBM Plex Mono" font-size="7" fill="#9C968E">0</text>
-        <!-- Tubo fondo -->
-        <rect x="16" y="24" width="10" height="228" rx="5" fill="#E4DDD1" stroke="#1C1916" stroke-width="1"/>
-        <!-- Mercurio -->
-        <rect id="mercurio-fill" x="18" y="180" width="6" height="72" rx="0" fill="#D94020"/>
-        <!-- Tubo borde (encima del mercurio) -->
-        <rect x="16" y="24" width="10" height="228" rx="5" fill="none" stroke="#1C1916" stroke-width="1"/>
-        <!-- Bulbo -->
-        <circle cx="21" cy="264" r="12" fill="#D94020" stroke="#1C1916" stroke-width="1"/>
-        <circle cx="21" cy="264" r="7.5" fill="#E8501D"/>
-      </svg>
-      <span class="termometro-label">Temperatura</span>
-    </div>
-
-    <!-- CONTENIDO -->
-    <div class="columna-contenido" id="contenido-principal">
-
-      <div class="hero">
-        <div class="hero-sup">Temperatura del barrio · 2024</div>
-        <div class="hero-temp" id="hero-temp">—</div>
-        <div class="hero-nombre" id="hero-nombre">Seleccioná un barrio</div>
-        <div class="hero-diagnostico" id="hero-diagnostico" style="color: var(--tinta-suave); border-color: var(--tinta-suave);">
-          Cargando datos…
-        </div>
+  <div class="idx-bloque" id="idx-bloque">
+    <div class="idx-top">
+      <div>
+        <div class="idx-nombre" id="idx-nombre">—<span class="idx-meta" id="idx-meta"></span></div>
       </div>
-
-      <div class="seccion">
-        <div class="seccion-header">
-          <span class="seccion-header-texto">Principales problemas</span>
-          <div class="seccion-header-linea"></div>
-          <span class="seccion-header-num" id="total-reclamos">—</span>
-        </div>
-        <div id="lista-problemas"></div>
-
-        <div class="bloque-historico" style="margin-top: 6px;">
-          <div class="seccion-header" style="padding-top: 10px;">
-            <span class="seccion-header-texto">Evolución 2018–2024</span>
-            <div class="seccion-header-linea"></div>
-          </div>
-          <div class="spark-contenedor">
-            <svg class="spark-svg" id="spark-svg" viewBox="0 0 400 58" preserveAspectRatio="none"></svg>
-          </div>
-          <div class="spark-anos">
-            <span class="spark-ano">2018</span>
-            <span class="spark-ano">2019</span>
-            <span class="spark-ano">2020</span>
-            <span class="spark-ano">2021</span>
-            <span class="spark-ano">2022</span>
-            <span class="spark-ano">2023</span>
-            <span class="spark-ano">2024</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- PIE -->
-  <div class="pie">
-    <span class="pie-label">vs. ciudad</span>
-    <div class="comparativa-barra">
-      <div class="comparativa-fill" id="comp-fill" style="width: 50%;"></div>
-      <div class="comparativa-ciudad" id="comp-ciudad" style="left: 50%;">
-        <span class="comparativa-ciudad-label">Prom. CABA</span>
+      <div class="idx-num-wrap">
+        <div class="idx-num" id="idx-num">—</div>
+        <div class="idx-num-lbl">/ 100</div>
       </div>
     </div>
-    <span class="pie-valor" id="comp-valor">—</span>
+
+    <div class="gauge-track">
+      <div class="gauge-fill" id="g-fill" style="width:0"></div>
+    </div>
+    <div class="gauge-esc">
+      <span>0 · sin reclamos</span>
+      <span>50 · promedio CABA</span>
+      <span>100 · máximo</span>
+    </div>
+
+    <div class="diag">
+      <div class="diag-dot" id="diag-dot"></div>
+      <span id="diag-txt">Seleccioná un barrio para ver el diagnóstico.</span>
+    </div>
+
+    <div class="vs">
+      <span>vs. CABA</span>
+      <div class="vs-track">
+        <div class="vs-fill" id="vs-fill" style="width:0"></div>
+        <div class="vs-mark" id="vs-mark" style="left:50%">
+          <span class="vs-mark-lbl">prom.</span>
+        </div>
+      </div>
+      <span class="vs-val" id="vs-val">— vs. —</span>
+    </div>
   </div>
 
-  <div class="nota">
-    Fuente: Sistema Único de Atención Ciudadana (SUACI / BA 147) — Gobierno de la Ciudad de Buenos Aires · data.buenosaires.gob.ar ·
-    La temperatura es un índice compuesto (0–100): volumen de reclamos normalizado + peso de categorías críticas + tendencia interanual.
-    No representa temperatura meteorológica.
-    <span id="nota-mock"></span>
+  <div id="sec-probs">
+    <div class="sec-hdr">
+      Principales problemas
+      <span class="sec-hdr-r" id="total-lbl"></span>
+    </div>
+    <div class="sec-div"></div>
+    <div id="lista-probs"></div>
   </div>
 
+  <div class="hist" id="hist">
+    <div class="sec-hdr" style="margin-bottom:0">
+      Evolución de reclamos
+      <span class="sec-hdr-r">2018 – 2024</span>
+    </div>
+    <div class="sec-div"></div>
+    <div class="spark-w"><svg id="spark" viewBox="0 0 600 54" preserveAspectRatio="none"></svg></div>
+    <div class="spark-años">
+      <span class="spark-año">2018</span><span class="spark-año">2019</span>
+      <span class="spark-año">2020</span><span class="spark-año">2021</span>
+      <span class="spark-año">2022</span><span class="spark-año">2023</span>
+      <span class="spark-año">2024</span>
+    </div>
+  </div>
 
-  <script>
-    // ─────────────────────────────────────────────
-    // UTILS
-    // ─────────────────────────────────────────────
-    const COLOR_TEMP = t => {
-      if (t >= 80) return "#C8331A";
-      if (t >= 65) return "#D94020";
-      if (t >= 50) return "#B87810";
-      if (t >= 35) return "#3A7D5A";
-      return "#3B7DB5";
-    };
+</main>
 
-    const DIAG = (d, t) => {
-      const signo = d.tendenciaPct > 0 ? `+${d.tendenciaPct}%` : `${d.tendenciaPct}%`;
-      if (t >= 80) return `Nivel crítico. ${signo} respecto al año anterior. Problemas estructurales sin resolución.`;
-      if (t >= 65) return `Zona caliente. ${signo} respecto al año anterior. Requiere atención sostenida.`;
-      if (t >= 50) return `Zona templada. ${signo}. Problemas persistentes pero manejables.`;
-      if (t >= 35) return `Zona fría. ${signo}. Situación estable con margen de mejora.`;
-      return `Zona muy fría. ${signo}. Uno de los barrios con menos reclamos de la Ciudad.`;
-    };
+<footer class="footer">
+  Índice elaborado a partir del Sistema Único de Atención Ciudadana (SUACI / BA 147) ·
+  Gobierno de la Ciudad Autónoma de Buenos Aires · Licencia CC-BY-2.5-AR ·
+  <span id="ft-fecha"></span><span id="ft-mock"></span>
+</footer>
 
-    // ─────────────────────────────────────────────
-    // INIT: poblar selector con los 48 barrios
-    // ─────────────────────────────────────────────
-    const slugs = Object.keys(BARRIOS_DATA).sort((a, b) =>
-      BARRIOS_DATA[a].nombre.localeCompare(BARRIOS_DATA[b].nombre, "es")
-    );
+<script>
+  function colorIdx(v) {
+    if (v >= 75) return "#EF4444";
+    if (v >= 55) return "#F97316";
+    if (v >= 35) return "#F59E0B";
+    return "#10B981";
+  }
 
-    const sel = document.getElementById("selector");
-    slugs.forEach(slug => {
-      const opt = document.createElement("option");
-      opt.value = slug;
-      opt.textContent = BARRIOS_DATA[slug].nombre;
-      sel.appendChild(opt);
+  function diagTexto(d, v) {
+    const s = d.tendenciaPct > 0 ? `+${d.tendenciaPct}%` : `${d.tendenciaPct}%`;
+    if (v >= 75) return `Nivel crítico (${s} vs. año anterior). Problemas recurrentes sin resolución estructural.`;
+    if (v >= 55) return `Por encima del promedio de la Ciudad (${s} vs. año anterior). Requiere atención sostenida.`;
+    if (v >= 35) return `Dentro del promedio de la Ciudad (${s} vs. año anterior). Situación estable.`;
+    return `Uno de los barrios con menos reclamos (${s} vs. año anterior). Situación relativamente favorable.`;
+  }
+
+  // Poblar selector
+  const slugs = Object.keys(BARRIOS_DATA).sort((a,b) =>
+    BARRIOS_DATA[a].nombre.localeCompare(BARRIOS_DATA[b].nombre,"es"));
+  const selEl = document.getElementById("sel");
+  slugs.forEach(s => {
+    const o = document.createElement("option");
+    o.value = s; o.textContent = BARRIOS_DATA[s].nombre;
+    selEl.appendChild(o);
+  });
+
+  function cambiar(slug, esUsuario = false) {
+    const d = BARRIOS_DATA[slug];
+    if (!d) return;
+    const color = colorIdx(d.temperatura);
+    const idx   = Math.round(d.temperatura);
+    const prom  = typeof TEMP_PROMEDIO_CABA !== "undefined" ? TEMP_PROMEDIO_CABA : 55;
+
+    // Nombre y número
+    document.getElementById("idx-nombre").childNodes[0].nodeValue = d.nombre;
+    document.getElementById("idx-meta").textContent = ` · Comuna ${d.comuna} · 2024`;
+    document.getElementById("idx-num").textContent  = idx;
+    document.getElementById("idx-num").style.color  = color;
+    document.getElementById("total-lbl").textContent =
+      `${d.totalReclamos.toLocaleString("es-AR")} reclamos`;
+
+    // Gauge
+    const gf = document.getElementById("g-fill");
+    gf.style.width      = idx + "%";
+    gf.style.background = color;
+    gf.style.color      = color;
+
+    // Diagnóstico
+    document.getElementById("diag-txt").textContent    = diagTexto(d, idx);
+    document.getElementById("diag-dot").style.background = color;
+
+    // Vs ciudad
+    document.getElementById("vs-fill").style.width      = idx + "%";
+    document.getElementById("vs-fill").style.background = color;
+    document.getElementById("vs-mark").style.left       = Math.round(prom) + "%";
+    document.getElementById("vs-val").textContent       =
+      `${idx} vs. ${Math.round(prom)} CABA`;
+
+    // Problemas
+    const lista = document.getElementById("lista-probs");
+    lista.innerHTML = "";
+    d.problemas.forEach((p, i) => {
+      const tc = p.tendencia==="▲" ? "#EF4444" : p.tendencia==="▼" ? "#10B981" : "#9CA3AF";
+      const tl = p.tendencia==="▲" ? "↑ sube" : p.tendencia==="▼" ? "↓ baja" : "→ estable";
+      const div = document.createElement("div");
+      div.className = "prob";
+      div.innerHTML = `
+        <span class="p-num">${i+1}</span>
+        <div class="p-body">
+          <div class="p-nombre">${p.nombre}</div>
+          <div class="p-barra-w"><div class="p-barra" style="width:${p.pct}%;background:${color}"></div></div>
+          <div class="p-cat">${p.categoria}</div>
+        </div>
+        <div class="p-right">
+          <div class="p-total" style="color:${color}">${p.total.toLocaleString("es-AR")}</div>
+          <span class="p-tend" style="color:${tc}">${tl}</span>
+        </div>`;
+      lista.appendChild(div);
     });
 
-    document.getElementById("total-barrios-label").textContent =
-      `${slugs.length} barrios · 48 comunas de CABA`;
-
-    // Ocultar aviso mock si los datos son reales
-    if (typeof DATOS_MOCK === "undefined" || !DATOS_MOCK) {
-      document.getElementById("aviso-mock").style.display = "none";
-    } else {
-      document.getElementById("nota-mock").textContent =
-        " · Los datos actuales son de ejemplo. Corrés pipeline.py --export para usar datos reales del SUACI.";
-    }
-
-    document.getElementById("fecha-actual").textContent =
-      new Date().toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" });
-
-    // ─────────────────────────────────────────────
-    // RENDER
-    // ─────────────────────────────────────────────
-    function actualizarBarrio(slug) {
-      const d = BARRIOS_DATA[slug];
-      if (!d) return;
-
-      const color = COLOR_TEMP(d.temperatura);
-      const promedio = typeof TEMP_PROMEDIO_CABA !== "undefined" ? TEMP_PROMEDIO_CABA : 55;
-
-      // Hero
-      document.getElementById("hero-temp").textContent  = d.temperatura.toFixed(1) + "°";
-      document.getElementById("hero-temp").style.color  = color;
-      document.getElementById("hero-nombre").textContent = `${d.nombre} · Comuna ${d.comuna}`;
-      document.getElementById("total-reclamos").textContent =
-        `${d.totalReclamos.toLocaleString("es-AR")} reclamos · 2024`;
-
-      const diag = document.getElementById("hero-diagnostico");
-      diag.textContent       = DIAG(d, d.temperatura);
-      diag.style.color       = color;
-      diag.style.borderColor = color;
-
-      // Termómetro SVG
-      const tubeH = 228, tubeBottom = 252;
-      const fillH = Math.max(4, Math.round(tubeH * d.temperatura / 100));
-      const fillY = tubeBottom - fillH;
-      const m = document.getElementById("mercurio-fill");
-      m.setAttribute("y",      fillY);
-      m.setAttribute("height", fillH);
-      m.setAttribute("fill",   color);
-      m.setAttribute("rx",     fillH > 220 ? "4" : "0");
-      // Bulbo
-      document.querySelectorAll("#termometro-svg circle").forEach(c => c.style.fill = "");
-      const [bulboOut, bulboIn] = document.querySelectorAll("#termometro-svg circle");
-      bulboOut.setAttribute("fill", color);
-      bulboIn.setAttribute("fill",  color);
-
-      // Comparativa pie
-      document.getElementById("comp-fill").style.width      = `${d.temperatura}%`;
-      document.getElementById("comp-fill").style.background = color;
-      document.getElementById("comp-ciudad").style.left     = `${promedio}%`;
-      document.getElementById("comp-valor").textContent     =
-        `${d.temperatura.toFixed(0)}° vs. ${promedio.toFixed(0)}° CABA`;
-
-      renderProblemas(d.problemas, color);
-      renderSparkline(d.historico, color);
-
-      // Animación
-      const el = document.getElementById("contenido-principal");
-      el.classList.remove("animate-in");
-      void el.offsetWidth;
-      el.classList.add("animate-in");
-
-      // Actualizar URL (sin recargar) — útil para compartir
-      history.replaceState(null, "", `?b=${slug}`);
-    }
-
-    function renderProblemas(problemas, color) {
-      const lista = document.getElementById("lista-problemas");
-      lista.innerHTML = "";
-      problemas.forEach((p, i) => {
-        const tc = p.tendencia === "▲" ? "#C8331A" : p.tendencia === "▼" ? "#3A7D5A" : "#9C968E";
-        const div = document.createElement("div");
-        div.className = "problema";
-        div.innerHTML = `
-          <span class="problema-num">${i + 1}</span>
-          <div class="problema-cuerpo">
-            <div class="problema-nombre">${p.nombre}</div>
-            <div class="problema-barra-wrap">
-              <div class="problema-barra" style="width:${p.pct}%;background:${color}"></div>
-            </div>
-            <div class="problema-categoria">${p.categoria}</div>
-          </div>
-          <div>
-            <div class="problema-total" style="color:${color}">
-              ${p.total.toLocaleString("es-AR")}
-              <span class="problema-tendencia" style="color:${tc}">${p.tendencia}</span>
-            </div>
-          </div>`;
-        lista.appendChild(div);
-      });
-    }
-
-    function renderSparkline(data, color) {
-      const svg = document.getElementById("spark-svg");
-      if (!data || data.length < 2) return;
-      const W = 400, H = 58;
-      const min = Math.min(...data) * 0.88;
-      const max = Math.max(...data) * 1.06;
-      const xs = i => Math.round(i * W / (data.length - 1));
-      const ys = v => Math.round(H - ((v - min) / (max - min)) * H * 0.82 - H * 0.05);
-      const pts = data.map((v, i) => `${xs(i)},${ys(v)}`).join(" ");
-      const area = data.map((v, i) => `${xs(i)},${ys(v)}`).join(" L") +
-                   ` L${xs(data.length - 1)},${H} L0,${H} Z`;
+    // Sparkline
+    const data = d.historico;
+    const svg  = document.getElementById("spark");
+    if (data && data.length >= 2) {
+      const W=600, H=54, mn=Math.min(...data)*.85, mx=Math.max(...data)*1.08;
+      const xs = i => Math.round(i*W/(data.length-1));
+      const ys = v => Math.round(H-((v-mn)/(mx-mn))*H*.78-H*.08);
+      const pts = data.map((v,i)=>`${xs(i)},${ys(v)}`);
       svg.innerHTML = `
-        <defs>
-          <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="${color}" stop-opacity=".22"/>
-            <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <path d="M${area}" fill="url(#sg)"/>
-        <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.4"
-          stroke-linejoin="round" stroke-linecap="round"/>
-        ${data.map((v, i) => `
-          <circle cx="${xs(i)}" cy="${ys(v)}" r="${i === data.length-1 ? 2.8 : 1.4}"
-            fill="${i === data.length-1 ? color : "var(--papel-oscuro)"}"
-            stroke="${color}" stroke-width="1"/>`).join("")}`;
+        <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${color}" stop-opacity=".16"/>
+          <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+        </linearGradient></defs>
+        <path d="M${pts.join(" L")} L${xs(data.length-1)},${H} L0,${H} Z" fill="url(#sg)"/>
+        <polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+        ${data.map((v,i)=>`<circle cx="${xs(i)}" cy="${ys(v)}" r="${i===data.length-1?3.5:2}" fill="${i===data.length-1?color:"white"}" stroke="${color}" stroke-width="1.5"/>`).join("")}`;
     }
 
-    // ─────────────────────────────────────────────
-    // ARRANQUE — leer ?b=slug de la URL si existe
-    // ─────────────────────────────────────────────
-    const params = new URLSearchParams(location.search);
-    const slugInicial = params.get("b") || slugs[0];
-    sel.value = slugInicial;
-    actualizarBarrio(slugInicial);
-  </script>
+    // URL: solo si fue acción del usuario
+    if (esUsuario) {
+      history.replaceState(null, "", `?b=${slug}`);
+      const b = document.getElementById("idx-bloque");
+      b.classList.remove("fade-in"); void b.offsetWidth; b.classList.add("fade-in");
+    }
+  }
+
+  // Avisos
+  if (typeof DATOS_MOCK !== "undefined" && DATOS_MOCK) {
+    document.getElementById("aviso").style.display = "block";
+    document.getElementById("ft-mock").textContent = " · Datos de ejemplo.";
+  }
+  const fa = typeof FECHA_ACTUALIZACION !== "undefined" ? `Actualizado: ${FECHA_ACTUALIZACION}` : "Datos: 2024";
+  document.getElementById("ft-fecha").textContent = fa;
+
+  // Arranque: leer ?b= sin tocar URL
+  const p = new URLSearchParams(location.search);
+  const pb = p.get("b");
+  const ini = (pb && BARRIOS_DATA[pb]) ? pb : slugs[0];
+  selEl.value = ini;
+  cambiar(ini, false); // false = no toca la URL
+</script>
 
 </body>
 </html>
