@@ -25,13 +25,13 @@ from datetime import datetime
 # y usa los años que sí funcionan.
 
 SUACI_URLS = {
-    2024: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/suaci-2024/download",
+    2025: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/ec9da864-d2e0-480d-8fd3-06807c083ff4/download",
+    2024: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/c979cfaa-9e71-4fee-8fd3-7f23f730d11d/download",
     2023: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/31ac3f7b-d99e-4b2f-8322-e4fc7b9cde3b/download",
     2022: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/f74143a6-919b-4664-97b4-93580ae7a45e/download",
     2021: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/3eb57505-84d5-4eff-810d-8f59fdc3aa20/download",
-    2020: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/suaci-2020/download",
-    2019: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/suaci-2019/download",
-    2018: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/suaci-2018/download",
+    2020: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/17a35d11-07ae-4d4d-949a-068a42b21835/download",
+    2019: "https://data.buenosaires.gob.ar/dataset/sistema-unico-atencion-ciudadana/resource/8c27aeb4-712c-4a96-a230-6d1c45483faf/download",
 }
 
 # ── Mapeo de rubros a categorías legibles ──────────────────────────────────
@@ -282,7 +282,7 @@ if __name__ == "__main__":
                         help="Descargar historial completo 2018-2024 (por defecto: 2022-2024)")
     args = parser.parse_args()
 
-    años = list(SUACI_URLS.keys()) if args.full else [2024, 2023, 2022]
+    años = list(SUACI_URLS.keys()) if args.full else [2025, 2024, 2023]
 
     print(f"🌡  Termómetro del Barrio — Pipeline")
     print(f"   Años a procesar: {años}\n")
