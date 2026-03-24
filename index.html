@@ -9,109 +9,114 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:       #FFFFFF;
-      --bg-s:     #F6F7F9;
-      --bg-h:     #F0F2F5;
-      --ink:      #111827;
-      --ink-2:    #4B5563;
-      --ink-3:    #9CA3AF;
-      --border:   #E5E7EB;
-      --border-2: #D1D5DB;
-      --r:        8px;
+      --bg:#FFFFFF; --bg-s:#F6F7F9; --bg-h:#F0F2F5;
+      --ink:#111827; --ink-2:#4B5563; --ink-3:#9CA3AF;
+      --border:#E5E7EB; --border-2:#D1D5DB; --r:8px;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--ink); font-family: 'Figtree', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--ink);font-family:'Figtree',sans-serif;font-size:15px;line-height:1.6;min-height:100vh;}
 
     /* HEADER */
-    .hdr { border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .hdr-brand { display: flex; align-items: baseline; gap: 10px; }
-    .hdr-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -.02em; }
-    .hdr-sep { width: 1px; height: 15px; background: var(--border-2); align-self: center; }
-    .hdr-sub { font-size: 12px; color: var(--ink-3); }
-    .hdr-src { font-size: 11px; color: var(--ink-3); text-align: right; line-height: 1.5; }
-    .hdr-src a { color: var(--ink-3); text-decoration: underline; text-decoration-color: var(--border-2); }
+    .hdr{border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .hdr-brand{display:flex;align-items:baseline;gap:10px;}
+    .hdr-title{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.02em;}
+    .hdr-sep{width:1px;height:15px;background:var(--border-2);align-self:center;}
+    .hdr-sub{font-size:12px;color:var(--ink-3);}
+    .hdr-src{font-size:11px;color:var(--ink-3);text-align:right;line-height:1.5;}
+    .hdr-src a{color:var(--ink-3);text-decoration:underline;text-decoration-color:var(--border-2);}
 
     /* MAIN */
-    .main { max-width: 660px; margin: 0 auto; padding: 28px 24px 60px; }
-
-    /* AVISO */
-    .aviso { background: #FFF8E7; border: 1px solid #FDE68A; border-radius: var(--r); padding: 9px 14px; font-size: 12px; color: #92400E; margin-bottom: 20px; }
+    .main{max-width:660px;margin:0 auto;padding:28px 24px 60px;}
 
     /* SELECTOR */
-    .sel-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
-    .sel-wrap { position: relative; display: inline-block; width: 100%; max-width: 340px; margin-bottom: 28px; }
-    .sel-wrap::after { content: ""; pointer-events: none; position: absolute; right: 13px; top: 50%; transform: translateY(-50%); border: 5px solid transparent; border-top-color: var(--ink-2); margin-top: 2px; }
-    .sel { width: 100%; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 15px; color: var(--ink); background: var(--bg-s); border: 1.5px solid var(--border-2); border-radius: var(--r); padding: 10px 36px 10px 13px; appearance: none; -webkit-appearance: none; cursor: pointer; outline: none; transition: border-color .15s; }
-    .sel:focus { border-color: var(--ink-2); }
+    .sel-label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+    .sel-wrap{position:relative;display:inline-block;width:100%;max-width:340px;margin-bottom:28px;}
+    .sel-wrap::after{content:"";pointer-events:none;position:absolute;right:13px;top:50%;transform:translateY(-50%);border:5px solid transparent;border-top-color:var(--ink-2);margin-top:2px;}
+    .sel{width:100%;font-family:'Syne',sans-serif;font-weight:600;font-size:15px;color:var(--ink);background:var(--bg-s);border:1.5px solid var(--border-2);border-radius:var(--r);padding:10px 36px 10px 13px;appearance:none;-webkit-appearance:none;cursor:pointer;outline:none;transition:border-color .15s;}
+    .sel:focus{border-color:var(--ink-2);}
+
+    /* PANTALLA BIENVENIDA */
+    .bienvenida{text-align:center;padding:48px 24px 40px;border:1px solid var(--border);border-radius:12px;background:var(--bg-s);margin-bottom:24px;}
+    .bienvenida-icono{font-size:36px;margin-bottom:16px;display:block;}
+    .bienvenida-titulo{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px;}
+    .bienvenida-texto{font-size:14px;color:var(--ink-2);line-height:1.7;max-width:440px;margin:0 auto 20px;}
+    .bienvenida-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+    .bstat{text-align:center;}
+    .bstat-num{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:22px;color:var(--ink);display:block;}
+    .bstat-lbl{font-size:11px;color:var(--ink-3);display:block;margin-top:2px;}
 
     /* EXPLICACIÓN */
-    .explic { background: var(--bg-s); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; margin-bottom: 20px; font-size: 12px; color: var(--ink-2); line-height: 1.65; display: flex; gap: 10px; }
-    .explic strong { color: var(--ink); font-weight: 600; }
+    .explic{background:var(--bg-s);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:20px;font-size:12px;color:var(--ink-2);line-height:1.65;display:flex;gap:10px;}
+    .explic strong{color:var(--ink);font-weight:600;}
 
     /* BLOQUE ÍNDICE */
-    .idx-bloque { background: var(--bg-s); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 24px; }
-    .idx-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
-    .idx-nombre { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -.02em; line-height: 1.2; }
-    .idx-meta { display: block; font-size: 12px; font-weight: 400; color: var(--ink-3); font-family: 'Figtree', sans-serif; margin-top: 2px; }
-    .idx-num-wrap { text-align: right; flex-shrink: 0; }
-    .idx-num { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 40px; letter-spacing: -.03em; line-height: 1; transition: color .3s; }
-    .idx-num-lbl { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
+    .idx-bloque{background:var(--bg-s);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:24px;}
+    .idx-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px;}
+    .idx-nombre{font-family:'Syne',sans-serif;font-weight:700;font-size:21px;letter-spacing:-.02em;line-height:1.2;}
+    .idx-meta{display:block;font-size:12px;font-weight:400;color:var(--ink-3);font-family:'Figtree',sans-serif;margin-top:2px;}
+    .idx-num-wrap{text-align:right;flex-shrink:0;}
+    .idx-num{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:40px;letter-spacing:-.03em;line-height:1;transition:color .3s;}
+    .idx-num-lbl{font-size:11px;color:var(--ink-3);margin-top:1px;}
 
     /* GAUGE */
-    .gauge-track { height: 8px; background: var(--border); border-radius: 99px; position: relative; margin-bottom: 5px; overflow: visible; }
-    .gauge-fill { height: 100%; border-radius: 99px; transition: width .5s cubic-bezier(.4,0,.2,1), background .4s; position: relative; }
-    .gauge-fill::after { content: ''; position: absolute; right: -1px; top: -3px; width: 14px; height: 14px; border-radius: 50%; background: currentColor; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,.18); }
-    .gauge-esc { display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace; }
+    .gauge-track{height:8px;background:var(--border);border-radius:99px;position:relative;margin-bottom:5px;overflow:visible;}
+    .gauge-fill{height:100%;border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1),background .4s;position:relative;}
+    .gauge-fill::after{content:'';position:absolute;right:-1px;top:-3px;width:14px;height:14px;border-radius:50%;background:currentColor;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.18);}
+    .gauge-esc{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-3);font-family:'JetBrains Mono',monospace;}
 
     /* DIAGNÓSTICO */
-    .diag { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 13px; font-size: 13px; color: var(--ink-2); display: flex; gap: 8px; align-items: flex-start; }
-    .diag-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; transition: background .3s; }
+    .diag{border-top:1px solid var(--border);margin-top:14px;padding-top:13px;font-size:13px;color:var(--ink-2);display:flex;gap:8px;align-items:flex-start;}
+    .diag-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;transition:background .3s;}
 
     /* VS CIUDAD */
-    .vs { display: flex; align-items: center; gap: 10px; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--ink-3); }
-    .vs-track { flex: 1; height: 4px; background: var(--border); border-radius: 99px; position: relative; }
-    .vs-fill { height: 100%; border-radius: 99px; transition: width .5s; }
-    .vs-mark { position: absolute; top: -4px; width: 2px; height: 12px; background: var(--ink-3); border-radius: 1px; }
-    .vs-mark-lbl { position: absolute; top: -15px; font-size: 9px; color: var(--ink-3); transform: translateX(-50%); white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
-    .vs-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+    .vs{display:flex;align-items:center;gap:10px;padding-top:12px;margin-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--ink-3);}
+    .vs-track{flex:1;height:4px;background:var(--border);border-radius:99px;position:relative;}
+    .vs-fill{height:100%;border-radius:99px;transition:width .5s;}
+    .vs-mark{position:absolute;top:-4px;width:2px;height:12px;background:var(--ink-3);border-radius:1px;}
+    .vs-mark-lbl{position:absolute;top:-15px;font-size:9px;color:var(--ink-3);transform:translateX(-50%);white-space:nowrap;font-family:'JetBrains Mono',monospace;}
+    .vs-val{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;color:var(--ink-2);white-space:nowrap;}
 
     /* SECCIÓN */
-    .sec-hdr { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); display: flex; justify-content: space-between; margin-bottom: 2px; }
-    .sec-hdr-r { font-family: 'JetBrains Mono', monospace; font-weight: 400; letter-spacing: 0; text-transform: none; }
-    .sec-div { height: 1px; background: var(--border); margin-bottom: 0; }
+    .sec-hdr{font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between;margin-bottom:2px;}
+    .sec-hdr-r{font-family:'JetBrains Mono',monospace;font-weight:400;letter-spacing:0;text-transform:none;}
+    .sec-div{height:1px;background:var(--border);margin-bottom:0;}
 
     /* PROBLEMAS */
-    .prob { display: grid; grid-template-columns: 18px 1fr 68px; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--bg-h); transition: background .1s; cursor: default; }
-    .prob:last-child { border-bottom: none; }
-    .prob:hover { background: var(--bg-h); margin: 0 -10px; padding: 10px 10px; border-radius: var(--r); border-bottom-color: transparent; }
-    .p-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3); text-align: right; }
-    .p-body { min-width: 0; }
-    .p-nombre { font-size: 14px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .p-barra-w { height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; margin-top: 4px; }
-    .p-barra { height: 100%; border-radius: 99px; transition: width .4s cubic-bezier(.4,0,.2,1); }
-    .p-cat { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
-    .p-right { text-align: right; }
-    .p-total { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; }
-    .p-tend { font-size: 11px; display: block; margin-top: 1px; }
+    .prob{display:grid;grid-template-columns:18px 1fr 68px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bg-h);transition:background .1s;cursor:default;}
+    .prob:last-child{border-bottom:none;}
+    .prob:hover{background:var(--bg-h);margin:0 -10px;padding:10px 10px;border-radius:var(--r);border-bottom-color:transparent;}
+    .p-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-3);text-align:right;}
+    .p-body{min-width:0;}
+    .p-nombre{font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .p-barra-w{height:3px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:4px;}
+    .p-barra{height:100%;border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1);}
+    .p-cat{font-size:11px;color:var(--ink-3);margin-top:1px;}
+    .p-right{text-align:right;}
+    .p-total{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;}
+    .p-tend{font-size:11px;display:block;margin-top:1px;}
 
     /* HISTÓRICO */
-    .hist { margin-top: 24px; }
-    .spark-w { height: 54px; margin-top: 8px; }
-    .spark-w svg { width: 100%; height: 100%; }
-    .spark-años { display: flex; justify-content: space-between; margin-top: 3px; }
-    .spark-año { font-size: 10px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace; }
+    .hist{margin-top:24px;}
+    .spark-w{height:54px;margin-top:8px;}
+    .spark-w svg{width:100%;height:100%;}
+    .spark-años{display:flex;justify-content:space-between;margin-top:3px;}
+    .spark-año{font-size:10px;color:var(--ink-3);font-family:'JetBrains Mono',monospace;}
 
     /* FOOTER */
-    .footer { border-top: 1px solid var(--border); padding: 14px 24px; font-size: 11px; color: var(--ink-3); line-height: 1.7; }
+    .footer{border-top:1px solid var(--border);padding:14px 24px;font-size:11px;color:var(--ink-3);line-height:1.7;}
+
+    /* OCULTO / VISIBLE */
+    .hidden{display:none!important;}
 
     /* ANIMACIÓN */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
-    .fade-in { animation: fadeUp .26s ease forwards; }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:translateY(0);}}
+    .fade-in{animation:fadeUp .26s ease forwards;}
 
-    @media (max-width: 480px) {
-      .hdr { padding: 12px 16px; } .hdr-src { display: none; }
-      .main { padding: 18px 16px 48px; }
-      .idx-num { font-size: 34px; } .idx-nombre { font-size: 18px; }
+    @media(max-width:480px){
+      .hdr{padding:12px 16px;}.hdr-src{display:none;}
+      .main{padding:18px 16px 48px;}
+      .idx-num{font-size:34px;}.idx-nombre{font-size:18px;}
+      .bienvenida-stats{gap:20px;}
     }
   </style>
 </head>
@@ -133,26 +138,51 @@
 
 <main class="main">
 
-  <div class="aviso" id="aviso" style="display:none">
-    ⚠ Datos de ejemplo — para datos reales del SUACI: <code>python pipeline.py --export</code>
-  </div>
-
   <label class="sel-label" for="sel">Elegí tu barrio</label>
   <div class="sel-wrap">
-    <select class="sel" id="sel" onchange="cambiar(this.value, true)"></select>
+    <select class="sel" id="sel" onchange="cambiar(this.value, true)">
+      <option value="" disabled selected>— Seleccioná un barrio —</option>
+    </select>
   </div>
 
-  <div class="explic">
+  <!-- PANTALLA DE BIENVENIDA (se oculta al elegir barrio) -->
+  <div class="bienvenida" id="bienvenida">
+    <span class="bienvenida-icono">🏙</span>
+    <div class="bienvenida-titulo">¿Qué necesita tu barrio?</div>
+    <p class="bienvenida-texto">
+      Cada reclamo que un vecino hace al Gobierno de la Ciudad cuenta una historia.
+      Este índice reúne años de datos del SUACI para mostrar dónde están los problemas,
+      qué persiste sin solución y cómo evoluciona cada barrio en el tiempo.
+    </p>
+    <div class="bienvenida-stats">
+      <div class="bstat">
+        <span class="bstat-num" id="stat-barrios">48</span>
+        <span class="bstat-lbl">barrios</span>
+      </div>
+      <div class="bstat">
+        <span class="bstat-num">7</span>
+        <span class="bstat-lbl">años de datos</span>
+      </div>
+      <div class="bstat">
+        <span class="bstat-num">0–100</span>
+        <span class="bstat-lbl">escala del índice</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPLICACIÓN (se muestra al elegir barrio) -->
+  <div class="explic hidden" id="explic">
     <span style="font-size:15px;flex-shrink:0;margin-top:1px">ⓘ</span>
     <div>
       <strong>¿Qué es el índice?</strong> Un número de 0 a 100 que muestra el nivel de reclamos de un barrio
       <em>en relación al barrio con más reclamos de toda la Ciudad</em> — igual que Google Trends.
-      <strong>100</strong> = máximo histórico. <strong>0</strong> = sin reclamos. Combina volumen total,
+      <strong>100</strong> = máximo. <strong>0</strong> = sin reclamos. Combina volumen total,
       proporción de reclamos críticos (inundaciones, baches, plagas) y tendencia interanual.
     </div>
   </div>
 
-  <div class="idx-bloque" id="idx-bloque">
+  <!-- BLOQUE ÍNDICE (se muestra al elegir barrio) -->
+  <div class="idx-bloque hidden" id="idx-bloque">
     <div class="idx-top">
       <div>
         <div class="idx-nombre" id="idx-nombre">—<span class="idx-meta" id="idx-meta"></span></div>
@@ -162,7 +192,6 @@
         <div class="idx-num-lbl">/ 100</div>
       </div>
     </div>
-
     <div class="gauge-track">
       <div class="gauge-fill" id="g-fill" style="width:0"></div>
     </div>
@@ -171,12 +200,10 @@
       <span>50 · promedio CABA</span>
       <span>100 · máximo</span>
     </div>
-
     <div class="diag">
       <div class="diag-dot" id="diag-dot"></div>
-      <span id="diag-txt">Seleccioná un barrio para ver el diagnóstico.</span>
+      <span id="diag-txt"></span>
     </div>
-
     <div class="vs">
       <span>vs. CABA</span>
       <div class="vs-track">
@@ -189,7 +216,8 @@
     </div>
   </div>
 
-  <div id="sec-probs">
+  <!-- PROBLEMAS (se muestra al elegir barrio) -->
+  <div id="sec-probs" class="hidden">
     <div class="sec-hdr">
       Principales problemas
       <span class="sec-hdr-r" id="total-lbl"></span>
@@ -198,10 +226,11 @@
     <div id="lista-probs"></div>
   </div>
 
-  <div class="hist" id="hist">
+  <!-- HISTÓRICO (se muestra al elegir barrio) -->
+  <div class="hist hidden" id="hist">
     <div class="sec-hdr" style="margin-bottom:0">
       Evolución de reclamos
-      <span class="sec-hdr-r">2018 – 2024</span>
+      <span class="sec-hdr-r" id="hist-años">2018 – 2024</span>
     </div>
     <div class="sec-div"></div>
     <div class="spark-w"><svg id="spark" viewBox="0 0 600 54" preserveAspectRatio="none"></svg></div>
@@ -218,76 +247,78 @@
 <footer class="footer">
   Índice elaborado a partir del Sistema Único de Atención Ciudadana (SUACI / BA 147) ·
   Gobierno de la Ciudad Autónoma de Buenos Aires · Licencia CC-BY-2.5-AR ·
-  <span id="ft-fecha"></span><span id="ft-mock"></span>
+  <span id="ft-fecha"></span>
 </footer>
 
 <script>
-  function colorIdx(v) {
-    if (v >= 75) return "#EF4444";
-    if (v >= 55) return "#F97316";
-    if (v >= 35) return "#F59E0B";
-    return "#10B981";
+  function colorIdx(v){
+    if(v>=75)return"#EF4444";
+    if(v>=55)return"#F97316";
+    if(v>=35)return"#F59E0B";
+    return"#10B981";
   }
-
-  function diagTexto(d, v) {
-    const s = d.tendenciaPct > 0 ? `+${d.tendenciaPct}%` : `${d.tendenciaPct}%`;
-    if (v >= 75) return `Nivel crítico (${s} vs. año anterior). Problemas recurrentes sin resolución estructural.`;
-    if (v >= 55) return `Por encima del promedio de la Ciudad (${s} vs. año anterior). Requiere atención sostenida.`;
-    if (v >= 35) return `Dentro del promedio de la Ciudad (${s} vs. año anterior). Situación estable.`;
-    return `Uno de los barrios con menos reclamos (${s} vs. año anterior). Situación relativamente favorable.`;
+  function diagTexto(d,v){
+    const s=d.tendenciaPct>0?`+${d.tendenciaPct}%`:`${d.tendenciaPct}%`;
+    if(v>=75)return`Nivel crítico (${s} vs. año anterior). Problemas recurrentes sin resolución estructural.`;
+    if(v>=55)return`Por encima del promedio de la Ciudad (${s} vs. año anterior). Requiere atención sostenida.`;
+    if(v>=35)return`Dentro del promedio de la Ciudad (${s} vs. año anterior). Situación estable.`;
+    return`Uno de los barrios con menos reclamos (${s} vs. año anterior). Situación relativamente favorable.`;
   }
 
   // Poblar selector
-  const slugs = Object.keys(BARRIOS_DATA).sort((a,b) =>
+  const slugs=Object.keys(BARRIOS_DATA).sort((a,b)=>
     BARRIOS_DATA[a].nombre.localeCompare(BARRIOS_DATA[b].nombre,"es"));
-  const selEl = document.getElementById("sel");
-  slugs.forEach(s => {
-    const o = document.createElement("option");
-    o.value = s; o.textContent = BARRIOS_DATA[s].nombre;
+  const selEl=document.getElementById("sel");
+  slugs.forEach(s=>{
+    const o=document.createElement("option");
+    o.value=s;o.textContent=BARRIOS_DATA[s].nombre;
     selEl.appendChild(o);
   });
+  document.getElementById("stat-barrios").textContent=slugs.length;
 
-  function cambiar(slug, esUsuario = false) {
-    const d = BARRIOS_DATA[slug];
-    if (!d) return;
-    const color = colorIdx(d.temperatura);
-    const idx   = Math.round(d.temperatura);
-    const prom  = typeof TEMP_PROMEDIO_CABA !== "undefined" ? TEMP_PROMEDIO_CABA : 55;
+  function mostrarContenido(){
+    document.getElementById("bienvenida").classList.add("hidden");
+    document.getElementById("explic").classList.remove("hidden");
+    document.getElementById("idx-bloque").classList.remove("hidden");
+    document.getElementById("sec-probs").classList.remove("hidden");
+    document.getElementById("hist").classList.remove("hidden");
+  }
 
-    // Nombre y número
-    document.getElementById("idx-nombre").childNodes[0].nodeValue = d.nombre;
-    document.getElementById("idx-meta").textContent = ` · Comuna ${d.comuna} · 2024`;
-    document.getElementById("idx-num").textContent  = idx;
-    document.getElementById("idx-num").style.color  = color;
-    document.getElementById("total-lbl").textContent =
-      `${d.totalReclamos.toLocaleString("es-AR")} reclamos`;
+  function cambiar(slug, esUsuario=false){
+    const d=BARRIOS_DATA[slug];
+    if(!d)return;
+    mostrarContenido();
 
-    // Gauge
-    const gf = document.getElementById("g-fill");
-    gf.style.width      = idx + "%";
-    gf.style.background = color;
-    gf.style.color      = color;
+    const color=colorIdx(d.temperatura);
+    const idx=Math.round(d.temperatura);
+    const prom=typeof TEMP_PROMEDIO_CABA!=="undefined"?TEMP_PROMEDIO_CABA:55;
 
-    // Diagnóstico
-    document.getElementById("diag-txt").textContent    = diagTexto(d, idx);
-    document.getElementById("diag-dot").style.background = color;
+    document.getElementById("idx-nombre").childNodes[0].nodeValue=d.nombre;
+    document.getElementById("idx-meta").textContent=` · Comuna ${d.comuna} · 2024`;
+    document.getElementById("idx-num").textContent=idx;
+    document.getElementById("idx-num").style.color=color;
+    document.getElementById("total-lbl").textContent=`${d.totalReclamos.toLocaleString("es-AR")} reclamos`;
 
-    // Vs ciudad
-    document.getElementById("vs-fill").style.width      = idx + "%";
-    document.getElementById("vs-fill").style.background = color;
-    document.getElementById("vs-mark").style.left       = Math.round(prom) + "%";
-    document.getElementById("vs-val").textContent       =
-      `${idx} vs. ${Math.round(prom)} CABA`;
+    const gf=document.getElementById("g-fill");
+    gf.style.width=idx+"%";gf.style.background=color;gf.style.color=color;
+
+    document.getElementById("diag-txt").textContent=diagTexto(d,idx);
+    document.getElementById("diag-dot").style.background=color;
+
+    document.getElementById("vs-fill").style.width=idx+"%";
+    document.getElementById("vs-fill").style.background=color;
+    document.getElementById("vs-mark").style.left=Math.round(prom)+"%";
+    document.getElementById("vs-val").textContent=`${idx} vs. ${Math.round(prom)} CABA`;
 
     // Problemas
-    const lista = document.getElementById("lista-probs");
-    lista.innerHTML = "";
-    d.problemas.forEach((p, i) => {
-      const tc = p.tendencia==="▲" ? "#EF4444" : p.tendencia==="▼" ? "#10B981" : "#9CA3AF";
-      const tl = p.tendencia==="▲" ? "↑ sube" : p.tendencia==="▼" ? "↓ baja" : "→ estable";
-      const div = document.createElement("div");
-      div.className = "prob";
-      div.innerHTML = `
+    const lista=document.getElementById("lista-probs");
+    lista.innerHTML="";
+    d.problemas.forEach((p,i)=>{
+      const tc=p.tendencia==="▲"?"#EF4444":p.tendencia==="▼"?"#10B981":"#9CA3AF";
+      const tl=p.tendencia==="▲"?"↑ sube":p.tendencia==="▼"?"↓ baja":"→ estable";
+      const div=document.createElement("div");
+      div.className="prob";
+      div.innerHTML=`
         <span class="p-num">${i+1}</span>
         <div class="p-body">
           <div class="p-nombre">${p.nombre}</div>
@@ -302,14 +333,14 @@
     });
 
     // Sparkline
-    const data = d.historico;
-    const svg  = document.getElementById("spark");
-    if (data && data.length >= 2) {
-      const W=600, H=54, mn=Math.min(...data)*.85, mx=Math.max(...data)*1.08;
-      const xs = i => Math.round(i*W/(data.length-1));
-      const ys = v => Math.round(H-((v-mn)/(mx-mn))*H*.78-H*.08);
-      const pts = data.map((v,i)=>`${xs(i)},${ys(v)}`);
-      svg.innerHTML = `
+    const data=d.historico;
+    const svg=document.getElementById("spark");
+    if(data&&data.length>=2){
+      const W=600,H=54,mn=Math.min(...data)*.85,mx=Math.max(...data)*1.08;
+      const xs=i=>Math.round(i*W/(data.length-1));
+      const ys=v=>Math.round(H-((v-mn)/(mx-mn))*H*.78-H*.08);
+      const pts=data.map((v,i)=>`${xs(i)},${ys(v)}`);
+      svg.innerHTML=`
         <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="${color}" stop-opacity=".16"/>
           <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
@@ -319,28 +350,25 @@
         ${data.map((v,i)=>`<circle cx="${xs(i)}" cy="${ys(v)}" r="${i===data.length-1?3.5:2}" fill="${i===data.length-1?color:"white"}" stroke="${color}" stroke-width="1.5"/>`).join("")}`;
     }
 
-    // URL: solo si fue acción del usuario
-    if (esUsuario) {
-      history.replaceState(null, "", `?b=${slug}`);
-      const b = document.getElementById("idx-bloque");
-      b.classList.remove("fade-in"); void b.offsetWidth; b.classList.add("fade-in");
+    if(esUsuario){
+      history.replaceState(null,"",`?b=${slug}`);
+      const b=document.getElementById("idx-bloque");
+      b.classList.remove("fade-in");void b.offsetWidth;b.classList.add("fade-in");
     }
   }
 
-  // Avisos
-  if (typeof DATOS_MOCK !== "undefined" && DATOS_MOCK) {
-    document.getElementById("aviso").style.display = "block";
-    document.getElementById("ft-mock").textContent = " · Datos de ejemplo.";
-  }
-  const fa = typeof FECHA_ACTUALIZACION !== "undefined" ? `Actualizado: ${FECHA_ACTUALIZACION}` : "Datos: 2024";
-  document.getElementById("ft-fecha").textContent = fa;
+  // Footer fecha
+  const fa=typeof FECHA_ACTUALIZACION!=="undefined"?`Actualizado: ${FECHA_ACTUALIZACION}`:"Datos: 2024";
+  document.getElementById("ft-fecha").textContent=fa;
 
-  // Arranque: leer ?b= sin tocar URL
-  const p = new URLSearchParams(location.search);
-  const pb = p.get("b");
-  const ini = (pb && BARRIOS_DATA[pb]) ? pb : slugs[0];
-  selEl.value = ini;
-  cambiar(ini, false); // false = no toca la URL
+  // Arranque: si hay ?b= en la URL, mostrar ese barrio; si no, pantalla de bienvenida
+  const p=new URLSearchParams(location.search);
+  const pb=p.get("b");
+  if(pb&&BARRIOS_DATA[pb]){
+    selEl.value=pb;
+    cambiar(pb,false);
+  }
+  // Si no hay ?b=, no se hace nada — se ve la bienvenida
 </script>
 
 </body>
