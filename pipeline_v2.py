@@ -100,17 +100,42 @@ COLUMNAS_POSIBLES = {
 def normalizar(contenido_bytes, año):
     """Lee bytes de CSV y devuelve DataFrame normalizado."""
     import io
-    for enc in ["utf-8", "latin-1", "iso-8859-1"]:
+
+    # Datasets del GCBA suelen usar ; como separador y latin-1 como encoding.
+    # Probamos las combinaciones más comunes explícitamente en lugar de
+    # usar sep=None (que es lento y falla en archivos grandes).
+    combinaciones = [
+        (";",  "latin-1"),
+        (";",  "utf-8"),
+        (";",  "iso-8859-1"),
+        (",",  "latin-1"),
+        (",",  "utf-8"),
+        ("\t", "latin-1"),
+        ("\t", "utf-8"),
+    ]
+
+    df = None
+    for sep, enc in combinaciones:
         try:
             df = pd.read_csv(
                 io.BytesIO(contenido_bytes),
-                encoding=enc, sep=None, engine="python",
-                low_memory=False, on_bad_lines="skip"
+                encoding=enc,
+                sep=sep,
+                low_memory=False,
+                on_bad_lines="skip",
+                dtype=str,           # leer todo como string para evitar errores de tipo
             )
-            break
-        except Exception:
+            # Validar que tenemos al menos una columna reconocible
+            cols_norm = [COLUMNAS_POSIBLES.get(c.strip(), "") for c in df.columns]
+            if "barrio" in cols_norm or "BARRIO" in [c.strip() for c in df.columns]:
+                print(f"    → encoding={enc}, sep={repr(sep)}, filas={len(df):,}, cols={list(df.columns[:5])}")
+                break
+            df = None  # no era el separador correcto
+        except Exception as e:
             continue
-    else:
+
+    if df is None:
+        print(f"  ✗ {año}: no se pudo parsear con ninguna combinación de encoding/separador")
         return None
 
     df.columns = [COLUMNAS_POSIBLES.get(c.strip(), c.strip().lower()) for c in df.columns]
