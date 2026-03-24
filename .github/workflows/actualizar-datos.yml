@@ -1,0 +1,37 @@
+name: Actualizar datos SUACI
+
+on:
+  # Corre todos los lunes a las 9am Argentina (12:00 UTC)
+  schedule:
+    - cron: "0 12 * * 1"
+
+  # También se puede disparar manualmente desde la pestaña Actions en GitHub
+  workflow_dispatch:
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: pip install pandas requests duckdb tqdm
+
+      - name: Correr pipeline y generar data.js
+        run: python pipeline.py --export
+
+      - name: Commitear data.js actualizado
+        run: |
+          git config user.name  "Termómetro Bot"
+          git config user.email "bot@termometro-barrio"
+          git add data.js
+          # Solo hace commit si data.js cambió
+          git diff --staged --quiet || git commit -m "datos actualizados $(date +'%Y-%m-%d')"
+          git push
